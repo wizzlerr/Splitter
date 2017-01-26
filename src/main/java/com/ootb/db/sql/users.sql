@@ -1,0 +1,6 @@
+CREATE  TABLE users (
+  id SERIAL PRIMARY KEY ,
+  username VARCHAR(45) NOT NULL UNIQUE ,
+  password VARCHAR(45) NOT NULL ,
+  email VARCHAR(45) NOT NULL UNIQUE ,
+  enabled BOOLEAN DEFAULT false NOT NULL);
