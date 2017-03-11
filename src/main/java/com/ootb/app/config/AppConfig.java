@@ -1,11 +1,12 @@
 package com.ootb.app.config;
 
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.orm.jpa.vendor.HibernateJpaSessionFactoryBean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -44,9 +45,9 @@ public class AppConfig extends WebSecurityConfigurerAdapter {
 
         auth.jdbcAuthentication().dataSource(jdbcTemplate.getDataSource())
                 .usersByUsernameQuery(
-                        "select username,password, enabled from users where username=?")
+                        "select userName,password, enabled from users where userName=?")
                 .authoritiesByUsernameQuery(
-                        "select username, role from user_roles where username=?");
+                        "select userName, role from user_roles where userName=?");
     }
 
     @Bean
@@ -57,5 +58,10 @@ public class AppConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public JavaMailSender mailSender(){
+        return new JavaMailSenderImpl();
     }
 }

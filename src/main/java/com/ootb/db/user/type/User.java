@@ -1,12 +1,15 @@
 package com.ootb.db.user.type;
 
+import org.hibernate.validator.constraints.Email;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,44 +17,43 @@ import java.util.Set;
  * Created by Adam on 2017-03-09.
  */
 @Entity
-@Table(name = "users", catalog = "test")
+@Table(name = "users")
 public class User {
 
-    private String username;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+
+    @Column(name = "userName", unique = true,
+            nullable = false, length = 45)
+    private String userName;
+
+    @Column(name = "email", unique = true,
+            nullable = false)
+    @Email
+    private String email;
+
+    @Column(name = "password",
+            nullable = false)
     private String password;
+
+    @Column(name = "enabled", nullable = false)
     private boolean enabled;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private Set<UserRole> userRole = new HashSet<UserRole>(0);
 
     public User() {
     }
 
-    public User(String username, String password, boolean enabled) {
-        this.username = username;
-        this.password = password;
-        this.enabled = enabled;
+    public String getUserName() {
+        return this.userName;
     }
 
-    public User(String username, String password,
-                boolean enabled, Set<UserRole> userRole) {
-        this.username = username;
-        this.password = password;
-        this.enabled = enabled;
-        this.userRole = userRole;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    @Id
-    @Column(name = "username", unique = true,
-            nullable = false, length = 45)
-    public String getUsername() {
-        return this.username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    @Column(name = "password",
-            nullable = false, length = 60)
     public String getPassword() {
         return this.password;
     }
@@ -60,7 +62,6 @@ public class User {
         this.password = password;
     }
 
-    @Column(name = "enabled", nullable = false)
     public boolean isEnabled() {
         return this.enabled;
     }
@@ -69,7 +70,6 @@ public class User {
         this.enabled = enabled;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     public Set<UserRole> getUserRole() {
         return this.userRole;
     }
@@ -78,4 +78,76 @@ public class User {
         this.userRole = userRole;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public static final class UserBuilder {
+        private Integer id;
+        private String username;
+        private String email;
+        private String password;
+        private boolean enabled;
+        private Set<UserRole> userRole = new HashSet<UserRole>(0);
+
+        private UserBuilder() {
+        }
+
+        public static UserBuilder anUser() {
+            return new UserBuilder();
+        }
+
+        public UserBuilder withId(Integer id) {
+            this.id = id;
+            return this;
+        }
+
+        public UserBuilder withUsername(String username) {
+            this.username = username;
+            return this;
+        }
+
+        public UserBuilder withEmail(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public UserBuilder withPassword(String password) {
+            this.password = password;
+            return this;
+        }
+
+        public UserBuilder withEnabled(boolean enabled) {
+            this.enabled = enabled;
+            return this;
+        }
+
+        public UserBuilder withUserRole(Set<UserRole> userRole) {
+            this.userRole = userRole;
+            return this;
+        }
+
+        public User build() {
+            User user = new User();
+            user.setId(id);
+            user.setUserName(username);
+            user.setEmail(email);
+            user.setPassword(password);
+            user.setEnabled(enabled);
+            user.setUserRole(userRole);
+            return user;
+        }
+    }
 }

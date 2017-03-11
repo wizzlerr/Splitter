@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -16,37 +17,33 @@ import static javax.persistence.GenerationType.IDENTITY;
  * Created by Adam on 2017-03-09.
  */
 @Entity
-@Table(name = "user_roles", catalog = "test",
+@Table(name = "user_roles",
         uniqueConstraints = @UniqueConstraint(
-                columnNames = { "role", "username" }))
+                columnNames = { "role", "userId" }))
 public class UserRole{
 
-    private Integer userRoleId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userId", nullable = false)
     private User user;
+
+    @Column(name = "role", nullable = false, length = 45)
     private String role;
 
     public UserRole() {
     }
 
-    public UserRole(User user, String role) {
-        this.user = user;
-        this.role = role;
+    public Integer getId() {
+        return id;
     }
 
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "user_role_id",
-            unique = true, nullable = false)
-    public Integer getUserRoleId() {
-        return this.userRoleId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public void setUserRoleId(Integer userRoleId) {
-        this.userRoleId = userRoleId;
-    }
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "username", nullable = false)
     public User getUser() {
         return this.user;
     }
@@ -55,7 +52,6 @@ public class UserRole{
         this.user = user;
     }
 
-    @Column(name = "role", nullable = false, length = 45)
     public String getRole() {
         return this.role;
     }
@@ -64,4 +60,39 @@ public class UserRole{
         this.role = role;
     }
 
+    public static final class UserRoleBuilder {
+        private Integer id;
+        private User user;
+        private String role;
+
+        private UserRoleBuilder() {
+        }
+
+        public static UserRoleBuilder anUserRole() {
+            return new UserRoleBuilder();
+        }
+
+        public UserRoleBuilder withId(Integer id) {
+            this.id = id;
+            return this;
+        }
+
+        public UserRoleBuilder withUser(User user) {
+            this.user = user;
+            return this;
+        }
+
+        public UserRoleBuilder withRole(String role) {
+            this.role = role;
+            return this;
+        }
+
+        public UserRole build() {
+            UserRole userRole = new UserRole();
+            userRole.setId(id);
+            userRole.setUser(user);
+            userRole.setRole(role);
+            return userRole;
+        }
+    }
 }

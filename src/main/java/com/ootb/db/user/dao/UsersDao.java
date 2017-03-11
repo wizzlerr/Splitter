@@ -1,17 +1,12 @@
 package com.ootb.db.user.dao;
 
-import org.hibernate.Criteria;
-import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Expression;
-import org.hibernate.criterion.Order;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import com.ootb.db.user.type.User;
 import com.ootb.db.util.AbstractDao;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Expression;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 import static com.ootb.db.user.dao.UserFilter.UserFilterBuilder.anUserFilter;
 
@@ -39,18 +34,17 @@ public class UsersDao extends AbstractDao {
     }
 
     public List<User> findAllByFilter(UserFilter userFilter) {
-        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(User.class);
+        Criteria criteria = sessionFactory.openSession().createCriteria(User.class);
 
         if(userFilter.getEmail()!=null){
-            criteria.add(Expression.ge("email",userFilter.getEmail()));
+            criteria.add(Expression.eq("email",userFilter.getEmail()));
         }
         if(userFilter.getId()!=null){
-            criteria.add(Expression.le("id",userFilter.getId()));
+            criteria.add(Expression.eq("id",userFilter.getId()));
         }
         if(userFilter.getUserName()!=null){
-            criteria.add(Expression.ge("userName",userFilter.getUserName()));
+            criteria.add(Expression.eq("userName",userFilter.getUserName()));
         }
-
         return criteria.list();
     }
 
@@ -60,5 +54,17 @@ public class UsersDao extends AbstractDao {
 
     public void addUser(User user) {
         persist(user);
+    }
+
+    public void enableUser(String userName) {
+        User userDb = findByUserName(userName);
+        if(userDb != null) {
+            userDb.setEnabled(true);
+        }
+        updateUseer(userDb);
+    }
+
+    public void updateUseer(User user) {
+        update(user);
     }
 }

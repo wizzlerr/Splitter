@@ -30,4 +30,12 @@ public abstract class AbstractDao {
         session.close();
     }
 
+    protected void update(Object object) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        session.merge(object);
+        session.getTransaction().commit();
+        session.close();
+    }
+
 }

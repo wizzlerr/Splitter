@@ -1,15 +1,20 @@
 package com.ootb.service.security.registration;
 
-import com.ootb.db.user.dao.UsersDao;
 import com.ootb.db.user.factory.UserFactory;
 import com.ootb.db.user.type.User;
+import com.ootb.service.event.type.OnRegistrationCompleteEvent;
 import com.ootb.service.infotainment.email.EmailService;
 import com.ootb.service.infotainment.notification.NotificationService;
 import com.ootb.service.security.password.PasswordService;
+import com.ootb.service.security.token.TokenService;
 import com.ootb.service.user.UserService;
 import org.apache.commons.validator.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.WebRequest;
+
+import static com.ootb.service.event.type.OnRegistrationCompleteEvent.OnRegistrationCompleteEventBuilder.anOnRegistrationCompleteEvent;
 
 /**
  * Created by Adam on 2017-03-09.
@@ -32,11 +37,31 @@ public class RegistrationService {
     @Autowired
     private EmailService emailService;
 
-    public void registerNewUser(String email, String userName, String password) {
-        if(userForRegistrationValid(email, userName)) {
-            User newUser = userFactory.getNewlyRegisteredUser(email, userName, passwordService.encryptPassword(password));
+    @Autowired
+    private TokenService tokenService;
 
+    @Autowired
+    private ApplicationEventPublisher eventPublisher;
+
+    public void registerNewUser(String email, String userName, String password, WebRequest request) {
+        if(userForRegistrationValid(email, userName)) {
+            register(email, userName, password, request);
+            notificationService.addSuccessMessage("Zostałeś zarejestrowwany. Sprawdź email i potwierdź swoją rejestracje!");
         }
+    }
+
+    private void register(String email, String userName, String password, WebRequest request) {
+        User newUser = userFactory.getNewlyRegisteredUser(email, userName, passwordService.encryptPassword(password));
+        userService.addUser(newUser);
+        eventPublisher.publishEvent(anOnRegistrationCompleteEvent(newUser).withAppUrl(request.getContextPath()).withLocale(request.getLocale()).build());
+    }
+
+    public void handleRegistrationEvent(OnRegistrationCompleteEvent event) {
+        User user = event.getUser();
+        String token = tokenService.getRandomToken();
+        tokenService.createVerificationToken(user, token);
+
+        emailService.sendRegistrationEmail(user, token, event);
     }
 
     private boolean userForRegistrationValid(String email, String userName) {
@@ -44,7 +69,7 @@ public class RegistrationService {
     }
 
     private boolean isUserNameAvaiable(String userName) {
-        if(userService.isUserNameAvaiable(userName)) {
+        if(!userService.isUserNameAvaiable(userName)) {
             notificationService.addDangerMessage("Nazwa użytkoniwka zajęta");
             return false;
         }
@@ -52,7 +77,7 @@ public class RegistrationService {
     }
 
     private boolean isEmailAvaiable(String email) {
-        if(userService.isUserNameAvaiable(email)) {
+        if(!userService.isEmailAvaiable(email)) {
             notificationService.addDangerMessage("Email zajęty");
             return false;
         }
