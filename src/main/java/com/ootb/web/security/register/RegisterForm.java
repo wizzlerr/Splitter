@@ -1,7 +1,5 @@
 package com.ootb.web.security.register;
 
-import org.hibernate.validator.constraints.Email;
-
 import javax.validation.constraints.NotNull;
 
 /**
@@ -13,7 +11,6 @@ public class RegisterForm {
     private String userName;
 
     @NotNull
-    @Email
     private String email;
 
     @NotNull

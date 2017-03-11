@@ -6955,3 +6955,6 @@ a.list-group-item-danger.active:focus {
   50% { opacity:0; }
   100% { opacity:1; }
 }
+.inline {
+  display: flex;
+}

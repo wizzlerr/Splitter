@@ -26,6 +26,10 @@ public class UsersDao extends AbstractDao {
         return findByFilter(anUserFilter().withUserName(username).build());
     }
 
+    public User findByEmail(String email) {
+        return findByFilter(anUserFilter().withEmail(email).build());
+    }
+
     public User findByFilter(UserFilter userFilter) {
         List<User> users = findAllByFilter(userFilter);
         if(!users.isEmpty()) {
@@ -52,5 +56,9 @@ public class UsersDao extends AbstractDao {
 
     public List<User> findAll() {
         return (List<User>) find(User.class);
+    }
+
+    public void addUser(User user) {
+        persist(user);
     }
 }

@@ -38,10 +38,22 @@
                     </div>
                 </div>
             </nav>
+
+            <div class="container-fluid" id="messages" th:with="notifyMessages=${session[T(com.ootb.service.infotainment.notification.NotificationService).NOTIFY_MSG_SESSION_KEY]}">
+                <div class="alert inline" th:each="msg : ${notifyMessages}" th:classappend="${#strings.toLowerCase(msg.cssClass)}"  >
+                    <strong th:text="${msg.strongText}"></strong>&nbsp;<div th:text="${msg.text}"></div>
+                </div>
+                <span th:if="${notifyMessages}" th:remove="all" th:text="${session.remove(
+          T(com.ootb.service.infotainment.notification.NotificationService).NOTIFY_MSG_SESSION_KEY)}" class="invisible"></span>
+            </div>
         </header>
 
-        <footer th:fragment="site-footer">
-            &copy; Out Of The Box, 2017
+        <footer class="container-fluid text-center panel-footer" th:fragment="site-footer">
+            <div class="copyrights" style="margin-top:25px;">
+                <p>Adam Sabeł © 2016, All Rights Reserved
+                    <br/>
+                    <span>Web Design By: Adam Sabeł</span></p>
+            </div>
         </footer>
     </body>
 </html>
