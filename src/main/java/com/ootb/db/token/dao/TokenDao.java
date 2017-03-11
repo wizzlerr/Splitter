@@ -19,7 +19,7 @@ public class TokenDao extends AbstractDao {
     }
 
     public VerificationToken findByToken(String token) {
-        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(VerificationToken.class);
+        Criteria criteria = sessionFactory.openSession().createCriteria(VerificationToken.class);
         criteria.add(Expression.eq("token",token));
 
         List<VerificationToken> tokens = criteria.list();

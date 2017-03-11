@@ -26,7 +26,7 @@ public class RegistrationController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/regitrationConfirm", method = RequestMethod.GET)
+    @RequestMapping(value = "/registrationConfirm", method = RequestMethod.GET)
     public String confirmRegistration
             (@RequestParam("token") String token) {
 

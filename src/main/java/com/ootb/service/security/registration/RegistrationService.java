@@ -14,6 +14,8 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.WebRequest;
 
+import javax.servlet.http.HttpServletRequest;
+
 import static com.ootb.service.event.type.OnRegistrationCompleteEvent.OnRegistrationCompleteEventBuilder.anOnRegistrationCompleteEvent;
 
 /**
@@ -43,17 +45,22 @@ public class RegistrationService {
     @Autowired
     private ApplicationEventPublisher eventPublisher;
 
-    public void registerNewUser(String email, String userName, String password, WebRequest request) {
+    public void registerNewUser(String email, String userName, String password, HttpServletRequest request) {
         if(userForRegistrationValid(email, userName)) {
             register(email, userName, password, request);
             notificationService.addSuccessMessage("Zostałeś zarejestrowwany. Sprawdź email i potwierdź swoją rejestracje!");
         }
     }
 
-    private void register(String email, String userName, String password, WebRequest request) {
+    private void register(String email, String userName, String password, HttpServletRequest request) {
         User newUser = userFactory.getNewlyRegisteredUser(email, userName, passwordService.encryptPassword(password));
         userService.addUser(newUser);
-        eventPublisher.publishEvent(anOnRegistrationCompleteEvent(newUser).withAppUrl(request.getContextPath()).withLocale(request.getLocale()).build());
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        eventPublisher.publishEvent(anOnRegistrationCompleteEvent(newUser).withAppUrl(request.getRequestURI()).withLocale(request.getLocale()).build());
     }
 
     public void handleRegistrationEvent(OnRegistrationCompleteEvent event) {

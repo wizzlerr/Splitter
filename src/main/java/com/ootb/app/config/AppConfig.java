@@ -60,8 +60,8 @@ public class AppConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public JavaMailSender mailSender(){
-        return new JavaMailSenderImpl();
-    }
+//    @Bean
+//    public JavaMailSender mailSender(){
+//        return new JavaMailSenderImpl();
+//    }
 }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.WebRequest;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 /**
@@ -26,7 +27,7 @@ public class RegisterController {
     }
 
     @RequestMapping("/register/new")
-    public String register(@ModelAttribute @Valid RegisterForm registerForm, WebRequest request) {
+    public String register(@ModelAttribute @Valid RegisterForm registerForm, HttpServletRequest request) {
         registrationService.registerNewUser(registerForm.getEmail(), registerForm.getUserName(), registerForm.getPassword(), request);
         return "security/login";
     }

@@ -17,12 +17,12 @@ import static com.ootb.service.infotainment.email.type.Email.EmailBuilder.anEmai
 public class EmailService {
 
     @Autowired
-    private JavaMailSender mailSender;
+    private JavaMailSender javaMailSender;
 
     public void sendRegistrationEmail(User user, String token, OnRegistrationCompleteEvent event) {
 
         String confirmationUrl
-                = event.getAppUrl() + "/regitrationConfirm?token=" + token;
+                = "/registrationConfirm?token=" + token;
         String message = "registrationSuccess";
         String text = message + " rn" + "http://localhost:8080" + confirmationUrl;
         sendEmail(anEmail().withRecipentAddress(user.getEmail()).withSubject("Potwierdzenie rejestracji").withMessage(text).build());
@@ -33,6 +33,6 @@ public class EmailService {
         simpleMailMessage.setTo(email.getRecipentAddress());
         simpleMailMessage.setSubject(email.getSubject());
         simpleMailMessage.setText(email.getMessage());
-        mailSender.send(simpleMailMessage);
+        javaMailSender.send(simpleMailMessage);
     }
 }

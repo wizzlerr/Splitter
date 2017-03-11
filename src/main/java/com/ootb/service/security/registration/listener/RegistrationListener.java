@@ -4,6 +4,7 @@ import com.ootb.service.event.type.OnRegistrationCompleteEvent;
 import com.ootb.service.security.registration.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 /**
@@ -17,9 +18,8 @@ public class RegistrationListener implements
     private RegistrationService registrationService;
 
     @Override
+    @EventListener
     public void onApplicationEvent(OnRegistrationCompleteEvent event) {
         registrationService.handleRegistrationEvent(event);
     }
-
-
 }
