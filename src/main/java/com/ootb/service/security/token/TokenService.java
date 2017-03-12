@@ -57,4 +57,8 @@ public class TokenService {
     public VerificationToken getVerificationToken(String token) {
         return tokenDao.findByToken(token);
     }
+
+    public boolean userHasRegistrationToken(User user) {
+        return tokenDao.findByUser(user) != null;
+    }
 }

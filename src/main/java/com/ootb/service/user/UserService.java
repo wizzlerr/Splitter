@@ -29,4 +29,9 @@ public class UserService {
     public void updateUser(User user) {
         usersDao.updateUseer(user);
     }
+
+    public void enableUser(User user) {
+        user.setEnabled(true);
+        updateUser(user);
+    }
 }

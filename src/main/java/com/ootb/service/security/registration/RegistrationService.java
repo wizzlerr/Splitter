@@ -5,10 +5,12 @@ import com.ootb.db.user.type.User;
 import com.ootb.service.event.type.OnRegistrationCompleteEvent;
 import com.ootb.service.infotainment.email.EmailService;
 import com.ootb.service.infotainment.notification.NotificationService;
+import com.ootb.service.logger.type.InjectLogger;
 import com.ootb.service.security.password.PasswordService;
 import com.ootb.service.security.token.TokenService;
 import com.ootb.service.user.UserService;
 import org.apache.commons.validator.EmailValidator;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -45,6 +47,8 @@ public class RegistrationService {
     @Autowired
     private ApplicationEventPublisher eventPublisher;
 
+    public static @InjectLogger Logger LOGGER;
+
     public void registerNewUser(String email, String userName, String password, HttpServletRequest request) {
         if(userForRegistrationValid(email, userName)) {
             register(email, userName, password, request);
@@ -65,10 +69,19 @@ public class RegistrationService {
 
     public void handleRegistrationEvent(OnRegistrationCompleteEvent event) {
         User user = event.getUser();
-        String token = tokenService.getRandomToken();
-        tokenService.createVerificationToken(user, token);
+        if(!tokenService.userHasRegistrationToken(user)) {
+            String token = tokenService.getRandomToken();
+            tokenService.createVerificationToken(user, token);
 
-        emailService.sendRegistrationEmail(user, token, event);
+            emailService.sendRegistrationEmail(user, token, event);
+        } else {
+            LOGGER.info("[PRZECHWYCIŁEM PODWÓJNY EVENT REJESTRACJI] Użytkownik ma już wydany token rejestracyjny.");
+        }
+    }
+
+    public void completeRegistration(User user) {
+        userService.enableUser(user);
+        notificationService.addSuccessMessage("Pomyślnie potwierdzono rejstracje");
     }
 
     private boolean userForRegistrationValid(String email, String userName) {

@@ -26,6 +26,9 @@ public class RegistrationController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private RegistrationService registrationService;
+
     @RequestMapping(value = "/registrationConfirm", method = RequestMethod.GET)
     public String confirmRegistration
             (@RequestParam("token") String token) {
@@ -41,9 +44,7 @@ public class RegistrationController {
             return "/";
         }
 
-        user.setEnabled(true);
-        userService.updateUser(user);
-        notificationService.addSuccessMessage("Pomyślnie potwierdzono rejstracje");
+        registrationService.completeRegistration(user);
         return "security/login";
     }
 }

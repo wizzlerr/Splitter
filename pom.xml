@@ -93,6 +93,12 @@
 			<artifactId>spring-security-jwt</artifactId>
 			<version>LATEST</version>
 		</dependency>
+		<dependency>
+			<groupId>net.vidageek</groupId>
+			<artifactId>mirror</artifactId>
+			<version>1.6.1</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

@@ -1,5 +1,6 @@
 package com.ootb.db.user.type;
 
+import com.ootb.db.token.type.VerificationToken;
 import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.CascadeType;
@@ -10,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
@@ -43,6 +45,9 @@ public class User {
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
     private Set<UserRole> userRole = new HashSet<UserRole>(0);
+
+    @OneToOne(mappedBy="user", cascade=CascadeType.ALL)
+    private VerificationToken verificationToken;
 
     public User() {
     }
@@ -93,6 +98,14 @@ public class User {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public VerificationToken getVerificationToken() {
+        return verificationToken;
+    }
+
+    public void setVerificationToken(VerificationToken verificationToken) {
+        this.verificationToken = verificationToken;
     }
 
     public static final class UserBuilder {

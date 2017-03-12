@@ -23,8 +23,8 @@ public class EmailService {
 
         String confirmationUrl
                 = "/registrationConfirm?token=" + token;
-        String message = "registrationSuccess";
-        String text = message + " rn" + "http://localhost:8080" + confirmationUrl;
+        String message = "Zarejestrowałeś się pomyślnie, kliknij w link aby aktywować konto";
+        String text = message + " " + "http://localhost:8080" + confirmationUrl;
         sendEmail(anEmail().withRecipentAddress(user.getEmail()).withSubject("Potwierdzenie rejestracji").withMessage(text).build());
     }
 

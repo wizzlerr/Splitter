@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import java.sql.Timestamp;
 import java.util.Calendar;
@@ -30,8 +31,8 @@ public class VerificationToken {
     @Column(name = "token")
     private String token;
 
-    @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
-    @JoinColumn(nullable = false, name = "user")
+    @OneToOne(targetEntity = User.class)
+    @JoinColumn
     private User user;
 
     @Column(name = "exipryDate")
