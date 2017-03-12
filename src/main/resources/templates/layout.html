@@ -7,6 +7,7 @@
         <link rel="icon" href="../public/img/favicons/favicon.ico" th:href="@{/img/favicons/favicon.ico}"/>
 
         <script src="../public/js/typed.js" th:src="@{/js/typed.js}"></script>
+        <script src="../public/js/layout.js" th:src="@{/js/layout.js}"></script>
         <script src="../public/js/jquery-1.11.1.min.js" th:src="@{/js/jquery-1.11.1.min.js}"></script>
 
         <meta th:include="this :: head" th:remove="tag"/>
@@ -40,7 +41,7 @@
             </nav>
 
             <div class="container-fluid" id="messages" th:with="notifyMessages=${session[T(com.ootb.service.infotainment.notification.NotificationService).NOTIFY_MSG_SESSION_KEY]}">
-                <div class="alert inline" th:each="msg : ${notifyMessages}" th:classappend="${#strings.toLowerCase(msg.cssClass)}"  >
+                <div class="alert inline" th:each="msg : ${notifyMessages}" th:classappend="${#strings.toLowerCase(msg.cssClass)}" >
                     <strong th:text="${msg.strongText}"></strong>&nbsp;<div th:text="${msg.text}"></div>
                 </div>
                 <span th:if="${notifyMessages}" th:remove="all" th:text="${session.remove(

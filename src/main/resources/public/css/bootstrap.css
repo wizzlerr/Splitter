@@ -6958,3 +6958,7 @@ a.list-group-item-danger.active:focus {
 .inline {
   display: flex;
 }
+.page {
+  max-width: 80%;
+  margin: 0 auto;
+}

@@ -50,7 +50,7 @@ public class RegistrationService {
     public static @InjectLogger Logger LOGGER;
 
     public void registerNewUser(String email, String userName, String password, HttpServletRequest request) {
-        if(userForRegistrationValid(email, userName)) {
+        if(userForRegistrationValid(email, userName, password)) {
             register(email, userName, password, request);
             notificationService.addSuccessMessage("Zostałeś zarejestrowwany. Sprawdź email i potwierdź swoją rejestracje!");
         }
@@ -84,13 +84,21 @@ public class RegistrationService {
         notificationService.addSuccessMessage("Pomyślnie potwierdzono rejstracje");
     }
 
-    private boolean userForRegistrationValid(String email, String userName) {
-        return isUserNameAvaiable(userName) && isEmailAvaiable(email) && isEmailValid(email);
+    private boolean userForRegistrationValid(String email, String userName, String password) {
+        return isUserNameAvaiable(userName) && isEmailAvaiable(email) && isEmailValid(email) && isPasswordCorrect(password);
     }
 
     private boolean isUserNameAvaiable(String userName) {
         if(!userService.isUserNameAvaiable(userName)) {
             notificationService.addDangerMessage("Nazwa użytkoniwka zajęta");
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isPasswordCorrect(String password) {
+        if(password.length() < 5 || password.length() > 10) {
+            notificationService.addDangerMessage("Hasło powinno mieć od 5 do 10 znaków");
             return false;
         }
         return true;
