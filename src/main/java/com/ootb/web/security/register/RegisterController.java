@@ -29,6 +29,6 @@ public class RegisterController {
     @RequestMapping("/register/new")
     public String register(@ModelAttribute @Valid RegisterForm registerForm, HttpServletRequest request) {
         registrationService.registerNewUser(registerForm.getEmail(), registerForm.getUserName(), registerForm.getPassword(), request);
-        return "security/login";
+        return "redirect:/login";
     }
 }
