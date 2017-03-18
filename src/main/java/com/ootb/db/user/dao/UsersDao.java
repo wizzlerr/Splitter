@@ -28,7 +28,7 @@ public class UsersDao extends AbstractDao {
     public User findByFilter(UserFilter userFilter) {
         List<User> users = findAllByFilter(userFilter);
         if(!users.isEmpty()) {
-            users.get(0);
+            return users.get(0);
         }
         return null;
     }
