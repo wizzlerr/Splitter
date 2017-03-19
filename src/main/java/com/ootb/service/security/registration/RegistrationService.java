@@ -14,7 +14,6 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.WebRequest;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -59,11 +58,6 @@ public class RegistrationService {
     private void register(String email, String userName, String password, HttpServletRequest request) {
         User newUser = userFactory.getNewlyRegisteredUser(email, userName, passwordService.encryptPassword(password));
         userService.addUser(newUser);
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         eventPublisher.publishEvent(anOnRegistrationCompleteEvent(newUser).withAppUrl(request.getRequestURI()).withLocale(request.getLocale()).build());
     }
 

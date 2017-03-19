@@ -16,6 +16,8 @@ import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
 
+import static com.ootb.db.user.type.UserRole.UserRoleBuilder.anUserRole;
+
 /**
  * Created by Adam on 2017-03-09.
  */
@@ -108,6 +110,10 @@ public class User {
         this.verificationToken = verificationToken;
     }
 
+    private void setDefaultRole() {
+        userRole.add(anUserRole().withRole("USER").withUser(this).build());
+    }
+
     public static final class UserBuilder {
         private Integer id;
         private String username;
@@ -161,7 +167,8 @@ public class User {
             user.setPassword(password);
             user.setEnabled(enabled);
             user.setUserRole(userRole);
+            user.setDefaultRole();
             return user;
         }
     }
-}
+    }
