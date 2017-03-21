@@ -1,4 +1,4 @@
-package com.ootb.web.security.login;
+package com.ootb.web.security.login.form;
 
 import javax.validation.constraints.NotNull;
 

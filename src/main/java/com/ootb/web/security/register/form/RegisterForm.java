@@ -1,4 +1,4 @@
-package com.ootb.web.security.register;
+package com.ootb.web.security.register.form;
 
 import javax.validation.constraints.NotNull;
 
