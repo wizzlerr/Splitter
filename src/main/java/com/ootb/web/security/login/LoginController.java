@@ -24,8 +24,9 @@ public class LoginController {
 
     @RequestMapping("/login-error")
     public String loginError(@RequestParam(value = "error", required = false) String error, Model model) {
-
-        notificationService.addWarningMessage("Niepoprawna nazwa użytkownika lub hasło");
+        if(error != null) {
+            notificationService.addWarningMessage("Niepoprawna nazwa użytkownika lub hasło");
+        }
         return "security/login";
     }
 
