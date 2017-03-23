@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
     <head th:fragment="site-head">
         <meta charset="UTF-8"/>
 
@@ -7,6 +7,7 @@
         <link rel="icon" href="../public/img/favicons/favicon.ico" th:href="@{/img/favicons/favicon.ico}"/>
 
         <script src="../public/js/jquery-1.11.1.min.js" th:src="@{/js/jquery-1.11.1.min.js}"></script>
+        <script src="../public/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
         <script src="../public/js/typed.js" th:src="@{/js/typed.js}"></script>
         <script src="../public/js/layout.js" th:src="@{/js/layout.js}"></script>
 
@@ -31,10 +32,24 @@
 
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav navbar-right">
-                            <li><a href="/auth/friends">Znajomi</a></li>
-                            <li><a href="/logout">Wyloguj się</a></li>
-                            <li><a href="/login">Zaloguj się</a></li>
-                            <li><a href="/register">Zarejestruj się</a></li>
+                            <li sec:authorize="isAuthenticated()"><a href="/auth/friends">Znajomi</a></li>
+                            <li sec:authorize="isAuthenticated()">
+                                <div class="btn-group custom-btn-group">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span sec:authentication="name"></span> <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="/auth/profile">Profil</a></li>
+                                        <li><a href="#">Another action</a></li>
+                                        <li><a href="#">Something else here</a></li>
+                                        <li role="separator" class="divider"></li>
+                                        <li><a href="#">Separated link</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li sec:authorize="isAuthenticated()"><a href="/logout">Wyloguj się</a></li>
+                            <li sec:authorize="isAnonymous()"><a href="/login">Zaloguj się</a></li>
+                            <li sec:authorize="isAnonymous()"><a href="/register">Zarejestruj się</a></li>
                         </ul>
                     </div>
                 </div>

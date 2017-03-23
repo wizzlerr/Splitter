@@ -6962,3 +6962,7 @@ a.list-group-item-danger.active:focus {
   max-width: 80%;
   margin: 0 auto;
 }
+
+.custom-btn-group {
+  margin-top: 5%;
+}
