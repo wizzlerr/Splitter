@@ -76,4 +76,23 @@ public class AppConfig extends WebSecurityConfigurerAdapter {
     public SpringSecurityDialect springSecurityDialect(){
         return new SpringSecurityDialect();
     }
+
+//    @Bean
+//    public TemplateEngine templateEngine() {
+//        final SpringTemplateEngine springTemplateEngine = new SpringTemplateEngine();
+//        springTemplateEngine.addTemplateResolver(htmlTemplateResolver());
+//        return springTemplateEngine;
+//    }
+//
+//    private ITemplateResolver htmlTemplateResolver() {
+//        final ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
+//        templateResolver.setOrder(Integer.valueOf(2));
+//        templateResolver.setResolvablePatterns(Collections.singleton("html/*"));
+//        templateResolver.setPrefix("/mail/");
+//        templateResolver.setSuffix(".html");
+//        templateResolver.setTemplateMode(TemplateMode.HTML);
+//        templateResolver.setCharacterEncoding(EMAIL_TEMPLATE_ENCODING);
+//        templateResolver.setCacheable(false);
+//        return templateResolver;
+//    }
 }

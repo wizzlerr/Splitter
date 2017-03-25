@@ -35,4 +35,6 @@ public class EmailService {
         simpleMailMessage.setText(email.getMessage());
         javaMailSender.send(simpleMailMessage);
     }
+
+
 }
