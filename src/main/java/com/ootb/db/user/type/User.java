@@ -1,5 +1,6 @@
 package com.ootb.db.user.type;
 
+import com.ootb.db.expenses.personal.type.PersonalExpense;
 import com.ootb.db.token.type.VerificationToken;
 import org.hibernate.validator.constraints.Email;
 
@@ -50,6 +51,9 @@ public class User {
 
     @OneToOne(mappedBy="user", cascade=CascadeType.ALL)
     private VerificationToken verificationToken;
+
+    @OneToOne(mappedBy="user", cascade=CascadeType.ALL)
+    private PersonalExpense personalExpense;
 
     public User() {
     }
@@ -108,6 +112,14 @@ public class User {
 
     public void setVerificationToken(VerificationToken verificationToken) {
         this.verificationToken = verificationToken;
+    }
+
+    public PersonalExpense getPersonalExpense() {
+        return personalExpense;
+    }
+
+    public void setPersonalExpense(PersonalExpense personalExpense) {
+        this.personalExpense = personalExpense;
     }
 
     private void setDefaultRole() {
@@ -171,4 +183,17 @@ public class User {
             return user;
         }
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", userName='" + userName + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", enabled=" + enabled +
+                ", userRole=" + userRole +
+                ", verificationToken=" + verificationToken +
+                '}';
     }
+}

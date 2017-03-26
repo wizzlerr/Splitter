@@ -2,7 +2,9 @@ package com.ootb.service.user;
 
 import com.ootb.db.user.dao.UsersDao;
 import com.ootb.db.user.type.User;
+import com.ootb.service.user.type.UserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -33,5 +35,10 @@ public class UserService {
     public void enableUser(User user) {
         user.setEnabled(true);
         updateUser(user);
+    }
+
+    public User getLoggedUser() {
+        UserDetail userDetail = (UserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return usersDao.findByUserName(userDetail.getUsername());
     }
 }

@@ -2,6 +2,7 @@ package com.ootb.service.user;
 
 import com.ootb.db.user.dao.UsersDao;
 import com.ootb.db.user.type.User;
+import com.ootb.service.infotainment.notification.NotificationService;
 import com.ootb.service.user.type.UserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,12 +19,16 @@ public class UserDetailService implements UserDetailsService {
     @Autowired
     private UsersDao usersDao;
 
+    @Autowired
+    private NotificationService notificationService;
+
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         User user = usersDao.findByUserName(userName);
 
         if(user != null) {
            return new UserDetail(user.getPassword(), user.getUserName(), user.isEnabled());
         }
+        notificationService.addDangerMessage("Brak użytkownika");
         return null;
     }
 }

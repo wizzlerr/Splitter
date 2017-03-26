@@ -46,7 +46,7 @@ public class RegistrationService {
     @Autowired
     private ApplicationEventPublisher eventPublisher;
 
-    public static @InjectLogger Logger LOGGER;
+    private static @InjectLogger Logger LOGGER;
 
     public void registerNewUser(String email, String userName, String password, HttpServletRequest request) {
         if(userForRegistrationValid(email, userName, password)) {

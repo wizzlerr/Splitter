@@ -54,6 +54,7 @@ public class UsersDao extends AbstractDao {
 
     public void addUser(User user) {
         persist(user);
+        LOGGER.info("Dodano użytkownika " + user.toString());
     }
 
     public void enableUser(String userName) {

@@ -5,4 +5,8 @@
 $( document ).ready(function() {
     $('#messages').delay(10000).fadeOut('slow');
     $('.dropdown-toggle').dropdown();
+
+    $('#datetimepicker4').datetimepicker({
+        pickTime: false
+    });
 });

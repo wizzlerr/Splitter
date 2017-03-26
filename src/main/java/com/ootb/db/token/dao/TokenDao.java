@@ -20,6 +20,7 @@ public class TokenDao extends AbstractDao {
 
     public void save(VerificationToken myToken) {
         persist(myToken);
+        LOGGER.info("Wydano token " + myToken.toString());
     }
 
     public VerificationToken findByToken(String token) {

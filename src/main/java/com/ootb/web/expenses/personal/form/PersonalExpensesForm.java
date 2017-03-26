@@ -1,6 +1,7 @@
 package com.ootb.web.expenses.personal.form;
 
 import com.ootb.service.expenses.common.ExpenseCategory;
+import com.ootb.service.expenses.personal.type.PersonalExpense;
 
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -25,7 +26,19 @@ public class PersonalExpensesForm {
     @NotNull
     private ExpenseCategory category;
 
+    @NotNull
+    private String date;
+
     public PersonalExpensesForm() {
+    }
+
+    public PersonalExpensesForm(PersonalExpense expense) {
+        this.name = expense.getName();
+        this.description = expense.getDescription();
+        this.expense = expense.getExpense();
+        this.currency = expense.getCurrency();
+        this.category = expense.getCategory();
+        this.date = expense.getDate().toString();
     }
 
     public String getName() {
@@ -66,5 +79,13 @@ public class PersonalExpensesForm {
 
     public void setCategory(ExpenseCategory category) {
         this.category = category;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

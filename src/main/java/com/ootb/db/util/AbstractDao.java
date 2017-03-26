@@ -1,8 +1,10 @@
 package com.ootb.db.util;
 
+import com.ootb.service.logger.type.InjectLogger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -14,6 +16,9 @@ public abstract class AbstractDao {
 
     @Autowired
     protected SessionFactory sessionFactory;
+
+    protected static @InjectLogger
+    Logger LOGGER;
 
     @SuppressWarnings("unchecked")
     protected List<?> find(Class clazz) {
@@ -38,4 +43,11 @@ public abstract class AbstractDao {
         session.close();
     }
 
+    protected void delete(Object object) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        session.delete(session.contains(object) ? object : session.merge(object));
+        session.getTransaction().commit();
+        session.close();
+    }
 }

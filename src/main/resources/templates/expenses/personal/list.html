@@ -20,36 +20,26 @@
         <thead>
         <tr>
             <th>#</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Username</th>
+            <th>Nazwa</th>
+            <th>Wydatek</th>
+            <th>Waluta</th>
+            <th>Data</th>
+            <th>Akcja</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-        </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-        </tr>
-        <tr>
-            <th scope="row">3</th>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>@twitter</td>
-        </tr>
-        <tr th:each="emp,iterationStatus  : ${employees}">
-            <td th:text="${iterationStatus.count}">1</td>
-            <td th:text="${emp.id}">001</td>
-            <td th:text="${emp.name}">Name</td>
-            <td th:text="${emp.city}">City</td>
-            <td th:text="${emp.country}">Country</td>
+        <tr th:each="exp,iterationStatus  : ${expenses}">
+            <th scope="row" th:text="${iterationStatus.count}"></th>
+            <td th:text="${exp.name}"></td>
+            <td th:text="${exp.expense}"></td>
+            <td th:text="${exp.currency}"></td>
+            <td th:text="${exp.date}"></td>
+            <td>
+                <ul>
+                    <li><a th:href="@{'/auth/my-expenses/' + ${exp.id} +'/edit'}">Edytuj</a></li>
+                    <li><a th:href="@{'/auth/my-expenses/' + ${exp.id} +'/delete'}">Usuń</a></li>
+                </ul>
+            </td>
         </tr>
         </tbody>
     </table>

@@ -10,12 +10,12 @@
     <div class="row main">
         <div class="panel-heading">
             <div class="panel-title text-center">
-                <h2 class="title">Nowy wydatek</h2>
+                <h2 class="title">Edycja</h2>
                 <hr />
             </div>
         </div>
         <div class="main-login main-center">
-            <form class="form-horizontal" method="post" th:action="@{/auth/my-expenses/new}" th:object="${personalExpensesForm}">
+            <form class="form-horizontal" method="post" th:action="@{'/auth/my-expenses/' + ${id} + '/edit'}" th:object="${personalExpensesForm}">
                 <div class="modal-body row">
                     <div class="col-md-6">
                         <div class="form-group">
@@ -33,7 +33,7 @@
                             <div class="cols-sm-10">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
-                                    <textarea class="form-control" name="description" id="description"  placeholder="Opis wydatku" th:value="*{description}" rows="1"/>
+                                    <textarea class="form-control" name="description" id="description"  placeholder="Opis wydatku" th:field="*{description}" rows="1"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -86,7 +86,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <button type="submit" th:href="@{/my-expenses/new}" class="btn btn-primary btn-lg btn-block login-button">Dodaj</button>
+                    <button type="submit" th:href="@{'/auth/my-expenses/' + ${id} + '/edit'}" class="btn btn-primary btn-lg btn-block login-button">Zapisz</button>
                 </div>
             </form>
         </div>

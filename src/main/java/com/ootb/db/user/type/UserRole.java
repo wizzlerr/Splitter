@@ -12,8 +12,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import static javax.persistence.GenerationType.IDENTITY;
-
 /**
  * Created by Adam on 2017-03-09.
  */
@@ -95,5 +93,13 @@ public class UserRole{
             userRole.setRole(role);
             return userRole;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "UserRole{" +
+                "id=" + id +
+                ", role='" + role + '\'' +
+                '}';
     }
 }

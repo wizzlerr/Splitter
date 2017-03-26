@@ -4,13 +4,11 @@ import com.ootb.db.user.type.User;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import java.sql.Timestamp;
 import java.util.Calendar;
@@ -108,5 +106,15 @@ public class VerificationToken {
             verificationToken.setExpiryDate(calculateExpiryDate(EXPIRATION));
             return verificationToken;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "VerificationToken{" +
+                "id=" + id +
+                ", token='" + token + '\'' +
+                ", user=" + user.toString() +
+                ", expiryDate=" + expiryDate +
+                '}';
     }
 }
