@@ -1,11 +1,11 @@
-package com.ootb.web.security.error;
+package com.ootb.web.error;
 
-import com.ootb.web.security.error.form.ErrorForm;
+import com.ootb.web.error.form.ErrorForm;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import static com.ootb.web.security.error.form.ErrorForm.ErrorFormBuilder.anErrorForm;
+import static com.ootb.web.error.form.ErrorForm.ErrorFormBuilder.anErrorForm;
 
 /**
  * Created by Adam on 2017-03-09.

@@ -1,4 +1,4 @@
-package com.ootb.web.security.error.form;
+package com.ootb.web.error.form;
 
 /**
  * Created by Adam on 2017-03-21.

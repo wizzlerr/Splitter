@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: site-head">
+
+</head>
+<body class="page">
+<header th:replace="layout :: site-header"/>
+
+<div class="container-fluid page">
+
+    <div class="page-header page-header-custom">
+        <div class="btn-toolbar pull-right">
+            <a class="btn btn-primary" href="/auth/my-expenses/new" role="button">
+                Nowy wydatek</a>
+        </div>
+        <h1 class="page-header-custom">Moje wydatki</h1>
+    </div>
+
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Username</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+        </tr>
+        <tr>
+            <th scope="row">2</th>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td>@fat</td>
+        </tr>
+        <tr>
+            <th scope="row">3</th>
+            <td>Larry</td>
+            <td>the Bird</td>
+            <td>@twitter</td>
+        </tr>
+        <tr th:each="emp,iterationStatus  : ${employees}">
+            <td th:text="${iterationStatus.count}">1</td>
+            <td th:text="${emp.id}">001</td>
+            <td th:text="${emp.name}">Name</td>
+            <td th:text="${emp.city}">City</td>
+            <td th:text="${emp.country}">Country</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<footer th:replace="layout :: site-footer"/>
+</body>
+</html>

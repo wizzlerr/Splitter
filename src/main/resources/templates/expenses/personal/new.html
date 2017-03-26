@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: site-head">
+
+</head>
+<body class="page">
+<header th:replace="layout :: site-header"/>
+
+<div class="container-fluid page">
+    <div class="row main">
+        <div class="panel-heading">
+            <div class="panel-title text-center">
+                <h2 class="title">Nowy wydatek</h2>
+                <hr />
+            </div>
+        </div>
+        <div class="main-login main-center">
+            <form class="form-horizontal" method="post" th:action="@{/auth/my-expenses/new}" th:object="${personalExpensesForm}">
+
+                <div class="form-group">
+                    <label for="name" class="cols-sm-2 control-label">Nazwa</label>
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+                            <input type="text" class="form-control" name="name" id="name"  placeholder="Nazwa wydatku" th:value="*{name}" required="required"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="description" class="cols-sm-2 control-label">Opis</label>
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+                            <textarea class="form-control" name="description" id="description"  placeholder="Opis wydatku" th:value="*{description}" rows="3"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="expense" class="cols-sm-2 control-label">Wydatek</label>
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-users fa" aria-hidden="true"></i></span>
+                            <input type="number" class="form-control" name="expense" id="expense"  placeholder="Podaj nazwę użytkownika" th:value="*{expense}" required="required"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="currency" class="cols-sm-2 control-label">Waluta</label>
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                            <select class="form-control" name="currency" id="currency" th:value="*{currency}">
+                                <option th:each="cur : ${currencies}" th:value="${cur.currencyCode}" th:text="${cur.currencyCode}" />
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="category" class="cols-sm-2 control-label">Kategoria</label>
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                            <select class="form-control" name="category" id="category" th:value="*{category}">
+                                <option th:each="cat : ${categories}" th:value="${cat}" th:text="${cat.displayName}" />
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" th:href="@{/my-expenses/new}" class="btn btn-primary btn-lg btn-block login-button">Dodaj</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="layout :: site-footer"/>
+</body>
+</html>
