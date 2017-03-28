@@ -57,12 +57,11 @@ public class PersonalExpenseService {
 
     public void updateExpense(PersonalExpense expense) {
         com.ootb.db.expenses.personal.type.PersonalExpense dbExpense = personalExpenseDao.findById(expense.getId());
-        dbExpense.setExpense(expense.getExpense());
-        dbExpense.setDescription(expense.getDescription());
-        dbExpense.setName(expense.getName());
-        dbExpense.setCategory(expense.getCategory().name());
-        dbExpense.setCurrency(expense.getCurrency());
-        dbExpense.setDate(expense.getDate().toString());
+        if(dbExpense == null) {
+            notificationService.addWarningMessage("Brak wydatku");
+        }
+        dbExpense.update(expense);
         personalExpenseDao.update(dbExpense);
+        notificationService.addInfoMessage("Wydatek zakutalizowany");
     }
 }

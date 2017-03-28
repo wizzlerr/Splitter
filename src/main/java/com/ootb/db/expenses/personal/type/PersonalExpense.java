@@ -126,4 +126,14 @@ public class PersonalExpense {
                 ", date=" + date +
                 '}';
     }
+
+
+    public void update(com.ootb.service.expenses.personal.type.PersonalExpense expense) {
+        this.setExpense(expense.getExpense());
+        this.setDescription(expense.getDescription());
+        this.setName(expense.getName());
+        this.setCategory(expense.getCategory().name());
+        this.setCurrency(expense.getCurrency());
+        this.setDate(expense.getDate().toString());
+    }
 }

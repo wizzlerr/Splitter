@@ -16,7 +16,11 @@
         <h1 class="page-header-custom">Moje wydatki</h1>
     </div>
 
-    <table class="table table-hover">
+    <div class="page-header page-header-custom" th:if="${#lists.isEmpty(expenses)}">
+        <h3 class="page-header-custom">Brak wydatków</h3>
+    </div>
+
+    <table class="table table-hover" th:if="${not #lists.isEmpty(expenses)}">
         <thead>
         <tr>
             <th>#</th>
@@ -35,11 +39,19 @@
             <td th:text="${exp.expense}"></td>
             <td th:text="${exp.currency}"></td>
             <td th:text="${exp.date}"></td>
-            <td th:text="${exp.category}"></td>
+            <td th:text="${exp.category.displayName}"></td>
             <td>
-                <ul>
-                    <li><a th:href="@{'/auth/my-expenses/' + ${exp.id} +'/edit'}">Edytuj</a></li>
-                    <li><a th:href="@{'/auth/my-expenses/' + ${exp.id} +'/delete'}">Usuń</a></li>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <a class="anchor-no-underline" th:href="@{'/auth/my-expenses/' + ${exp.id} +'/edit'}">
+                                Edytuj
+                        </a>
+                    </li>
+                    <li class="list-group-item">
+                        <a class="anchor-no-underline" th:href="@{'/auth/my-expenses/' + ${exp.id} +'/delete'}">
+                            Usuń
+                        </a>
+                    </li>
                 </ul>
             </td>
         </tr>

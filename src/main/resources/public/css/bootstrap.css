@@ -6974,3 +6974,7 @@ a.list-group-item-danger.active:focus {
 .padding-left-2em {
   padding-left: 2em;
 }
+
+.anchor-no-underline {
+  text-decoration: none;
+}
