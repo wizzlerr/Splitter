@@ -51,6 +51,7 @@ public abstract class AbstractDao {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         session.delete(session.contains(object) ? object : session.merge(object));
+        session.flush();
         session.getTransaction().commit();
         session.close();
 

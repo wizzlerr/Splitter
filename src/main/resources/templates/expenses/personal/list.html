@@ -41,17 +41,9 @@
             <td th:text="${exp.date}"></td>
             <td th:text="${exp.category.displayName}"></td>
             <td>
-                <ul class="list-group">
-                    <li class="list-group-item">
-                        <a class="anchor-no-underline" th:href="@{'/auth/my-expenses/' + ${exp.id} +'/edit'}">
-                                Edytuj
-                        </a>
-                    </li>
-                    <li class="list-group-item">
-                        <a class="anchor-no-underline" th:href="@{'/auth/my-expenses/' + ${exp.id} +'/delete'}">
-                            Usuń
-                        </a>
-                    </li>
+                <ul>
+                    <li><a class="anchor-no-underline" th:href="@{'/auth/my-expenses/' + ${exp.id} +'/edit'}">Edytuj</a></li>
+                    <li><a class="anchor-no-underline" th:href="@{'/auth/my-expenses/' + ${exp.id} +'/delete'}">Usuń</a></li>
                 </ul>
             </td>
         </tr>

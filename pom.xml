@@ -115,11 +115,6 @@
 			<artifactId>java-exchange-rates</artifactId>
 			<version>1.0</version>
 		</dependency>
-		<dependency>
-			<groupId>io.github.jpenren</groupId>
-			<artifactId>thymeleaf-spring-data-dialect</artifactId>
-			<version>3.2.2</version>
-		</dependency>
 	</dependencies>
 
 	<build>
