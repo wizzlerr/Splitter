@@ -2,9 +2,11 @@ package com.ootb.service.expenses.personal;
 
 import com.ootb.db.expenses.personal.dao.PersonalExpenseDao;
 import com.ootb.db.expenses.personal.factory.PersonalExpenseFactory;
+import com.ootb.db.util.Page;
 import com.ootb.service.expenses.personal.type.PersonalExpense;
 import com.ootb.service.infotainment.notification.NotificationService;
 import com.ootb.service.user.UserService;
+import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +37,11 @@ public class PersonalExpenseService {
 
     public List<PersonalExpense> getExpenses() {
         return personalExpenseFactory.getPersonalExpense(personalExpenseDao.findByUser(userService.getLoggedUser()));
+    }
+
+    public Pair<Integer, List<PersonalExpense>> getExpensesPaged(int startIndex) {
+        Page page = personalExpenseDao.findByUserPaged(userService.getLoggedUser(), startIndex);
+        return new Pair<>(page.getTotalPages(), personalExpenseFactory.getPersonalExpense((List<com.ootb.db.expenses.personal.type.PersonalExpense>) page.getObjects()));
     }
 
     public void deleteExpense(Long id) {

@@ -1,8 +1,11 @@
 package com.ootb.web.expenses.personal;
 
+import com.ootb.service.currency.CurrencyService;
 import com.ootb.service.expenses.common.ExpenseCategory;
 import com.ootb.service.expenses.personal.PersonalExpenseService;
+import com.ootb.service.expenses.personal.type.PersonalExpense;
 import com.ootb.web.expenses.personal.form.PersonalExpensesForm;
+import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +19,7 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Currency;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.ootb.service.expenses.personal.type.PersonalExpense.PersonalExpenseBuilder.aPersonalExpense;
@@ -31,17 +35,29 @@ public class PersonalExpensesController {
     @Autowired
     private PersonalExpenseService personalExpenseService;
 
+    @Autowired
+    private CurrencyService currencyService;
+
     @RequestMapping(value = "/my-expenses")
     public String personalExpenses(Model model) {
-        model.addAttribute("expenses", personalExpenseService.getExpenses());
+        Pair<Integer, List<PersonalExpense>> pair = personalExpenseService.getExpensesPaged(0);
+        model.addAttribute("expenses", pair.getValue());
+        model.addAttribute("pages", pair.getKey());
+        return "expenses/personal/list";
+    }
+
+    @RequestMapping(value = "/my-expenses/page/{id}")
+    public String personalExpensesPage(@PathVariable("id") int id, Model model) {
+        Pair<Integer, List<PersonalExpense>> pair = personalExpenseService.getExpensesPaged((id*5) - 5);
+        model.addAttribute("expenses", pair.getValue());
+        model.addAttribute("pages", pair.getKey());
         return "expenses/personal/list";
     }
 
     @RequestMapping(value = "/my-expenses/new", method = RequestMethod.GET)
     public String newPersonalExpense(Model model) {
         model.addAttribute("personalExpensesForm", new PersonalExpensesForm());
-        model.addAttribute("currencies", getAvailableCurrencies().stream()
-                .sorted(Comparator.comparing(Currency::getCurrencyCode)).collect(Collectors.toList()));
+        model.addAttribute("currencies", currencyService.getSortedCurrencies());
         model.addAttribute("categories", Arrays.asList(ExpenseCategory.values()));
         return "expenses/personal/new";
     }

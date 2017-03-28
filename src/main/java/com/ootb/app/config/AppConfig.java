@@ -1,6 +1,9 @@
 package com.ootb.app.config;
 
 import com.ootb.service.user.UserDetailService;
+import com.ritaja.xchangerate.api.CurrencyConverter;
+import com.ritaja.xchangerate.api.CurrencyConverterBuilder;
+import com.ritaja.xchangerate.util.Strategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -75,5 +78,16 @@ public class AppConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public SpringSecurityDialect springSecurityDialect(){
         return new SpringSecurityDialect();
+    }
+
+    @Bean
+    public CurrencyConverter currencyConverter() {
+        CurrencyConverter converter =  new CurrencyConverterBuilder()
+                .strategy(Strategy.YAHOO_FINANCE_FILESTORE)
+                .buildConverter();
+
+        converter.setRefreshRateSeconds(86400);
+
+        return converter;
     }
 }

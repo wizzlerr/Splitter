@@ -33,6 +33,8 @@ public abstract class AbstractDao {
         session.persist(object);
         session.getTransaction().commit();
         session.close();
+
+        LOGGER.info("Persisted " + object.toString());
     }
 
     protected void update(Object object) {
@@ -41,6 +43,8 @@ public abstract class AbstractDao {
         session.merge(object);
         session.getTransaction().commit();
         session.close();
+
+        LOGGER.info("Updated " + object.toString());
     }
 
     protected void delete(Object object) {
@@ -49,5 +53,7 @@ public abstract class AbstractDao {
         session.delete(session.contains(object) ? object : session.merge(object));
         session.getTransaction().commit();
         session.close();
+
+        LOGGER.info("Deleted " + object.toString());
     }
 }

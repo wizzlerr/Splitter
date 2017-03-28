@@ -48,21 +48,8 @@ public class UsersDao extends AbstractDao {
         return criteria.list();
     }
 
-    public List<User> findAll() {
-        return (List<User>) find(User.class);
-    }
-
     public void addUser(User user) {
         persist(user);
-        LOGGER.info("Dodano użytkownika " + user.toString());
-    }
-
-    public void enableUser(String userName) {
-        User userDb = findByUserName(userName);
-        if(userDb != null) {
-            userDb.setEnabled(true);
-        }
-        updateUseer(userDb);
     }
 
     public void updateUseer(User user) {

@@ -3,10 +3,12 @@ package com.ootb.db.expenses.personal.dao;
 import com.ootb.db.expenses.personal.type.PersonalExpense;
 import com.ootb.db.user.type.User;
 import com.ootb.db.util.AbstractDao;
+import com.ootb.db.util.Page;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Expression;
 import org.springframework.stereotype.Repository;
 
+import java.util.Comparator;
 import java.util.List;
 
 import static com.ootb.db.expenses.personal.dao.PersonalExpenseFilter.PersonalExpenseFilterBuilder.aPersonalExpenseFilter;
@@ -18,11 +20,15 @@ import static com.ootb.db.expenses.personal.dao.PersonalExpenseFilter.PersonalEx
 public class PersonalExpenseDao extends AbstractDao {
 
     public List<PersonalExpense> findByUser(User user) {
-        return findByFilter(aPersonalExpenseFilter().withUser(user).build());
+        return findAllByFilter(aPersonalExpenseFilter().withUser(user).build());
     }
 
-    public List<PersonalExpense> findByFilter(PersonalExpenseFilter personalExpenseFilter) {
-         return findAllByFilter(personalExpenseFilter);
+    public Page findByUserPaged(User user, int startIndex) {
+
+        List<PersonalExpense> expenses = findAllByFilter(aPersonalExpenseFilter().withUser(user).build());
+        expenses.sort(Comparator.comparing(PersonalExpense::getDate));
+
+        return new Page(expenses, startIndex);
     }
 
     public List<PersonalExpense> findAllByFilter(PersonalExpenseFilter personalExpenseFilter) {
@@ -51,21 +57,19 @@ public class PersonalExpenseDao extends AbstractDao {
 
     public void savePersonalExpense(PersonalExpense personalExpense) {
         persist(personalExpense);
-        LOGGER.info("Zapisano wydatek " + personalExpense.toString());
     }
 
     public PersonalExpense deleteById(Long id) {
         PersonalExpense personalExpense = findById(id);
         if(personalExpense != null) {
             delete(personalExpense);
-            LOGGER.info("Usunięto wydatek " + personalExpense.toString());
             return personalExpense;
         }
         return null;
     }
 
     public PersonalExpense findById(Long id) {
-        List<PersonalExpense> personalExpenses = findByFilter(aPersonalExpenseFilter().withId(id).build());
+        List<PersonalExpense> personalExpenses = findAllByFilter(aPersonalExpenseFilter().withId(id).build());
         if(personalExpenses.isEmpty()) {
             return null;
         }
@@ -74,6 +78,5 @@ public class PersonalExpenseDao extends AbstractDao {
 
     public void update(PersonalExpense personalExpense) {
         super.update(personalExpense);
-        LOGGER.info("Update wydatku " + personalExpense.toString());
     }
 }
