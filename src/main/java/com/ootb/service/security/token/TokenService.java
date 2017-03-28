@@ -61,4 +61,8 @@ public class TokenService {
     public boolean userHasRegistrationToken(User user) {
         return tokenDao.findByUser(user) != null;
     }
+
+    public void deleteToken(VerificationToken verificationToken) {
+        tokenDao.deleteToken(verificationToken);
+    }
 }

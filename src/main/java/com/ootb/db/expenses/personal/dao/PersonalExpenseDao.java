@@ -8,6 +8,7 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.Expression;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.Comparator;
 import java.util.List;
 
@@ -59,10 +60,13 @@ public class PersonalExpenseDao extends AbstractDao {
         persist(personalExpense);
     }
 
+    @Transactional
     public PersonalExpense deleteById(Long id) {
         PersonalExpense personalExpense = findById(id);
         if(personalExpense != null) {
-            delete(personalExpense);
+            queryDelete("PersonalExpense", id);
+
+            LOGGER.info("Deleted " + personalExpense.toString());
             return personalExpense;
         }
         return null;

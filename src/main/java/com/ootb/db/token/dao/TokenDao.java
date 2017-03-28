@@ -51,4 +51,8 @@ public class TokenDao extends AbstractDao {
         }
         return criteria.list();
     }
+
+    public void deleteToken(VerificationToken verificationToken) {
+        queryDelete("VerificationToken", verificationToken.getId());
+    }
 }

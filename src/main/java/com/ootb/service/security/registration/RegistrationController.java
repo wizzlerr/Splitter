@@ -45,6 +45,7 @@ public class RegistrationController {
         }
 
         registrationService.completeRegistration(user);
+        tokenService.deleteToken(verificationToken);
         return "security/login";
     }
 }
