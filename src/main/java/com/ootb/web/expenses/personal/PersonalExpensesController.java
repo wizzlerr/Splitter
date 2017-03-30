@@ -1,10 +1,12 @@
 package com.ootb.web.expenses.personal;
 
 import com.ootb.service.currency.CurrencyService;
+import com.ootb.service.currency.util.PersonalExpenseTotalSum;
 import com.ootb.service.expenses.common.ExpenseCategory;
 import com.ootb.service.expenses.personal.PersonalExpenseService;
 import com.ootb.service.expenses.personal.type.PersonalExpense;
 import com.ootb.web.expenses.personal.form.PersonalExpensesForm;
+import com.ootb.web.technical.stereotype.AuthRequestMapping;
 import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,11 +31,14 @@ import static java.util.Currency.getAvailableCurrencies;
  * Created by Adam on 2017-03-26.
  */
 @Controller
-@RequestMapping(value = "/auth")
+@AuthRequestMapping
 public class PersonalExpensesController {
 
     @Autowired
     private PersonalExpenseService personalExpenseService;
+
+    @Autowired
+    private PersonalExpenseTotalSum personalExpenseTotalSum;
 
     @Autowired
     private CurrencyService currencyService;
@@ -41,16 +46,20 @@ public class PersonalExpensesController {
     @RequestMapping(value = "/my-expenses")
     public String personalExpenses(Model model) {
         Pair<Integer, List<PersonalExpense>> pair = personalExpenseService.getExpensesPaged(0);
+        setModel(model, pair);
+        return "expenses/personal/list";
+    }
+
+    private void setModel(Model model, Pair<Integer, List<PersonalExpense>> pair) {
         model.addAttribute("expenses", pair.getValue());
         model.addAttribute("pages", pair.getKey());
-        return "expenses/personal/list";
+        model.addAttribute("totalSum", personalExpenseTotalSum.getTotalSumDisplay(personalExpenseService.getExpenses()));
     }
 
     @RequestMapping(value = "/my-expenses/page/{id}")
     public String personalExpensesPage(@PathVariable("id") int id, Model model) {
         Pair<Integer, List<PersonalExpense>> pair = personalExpenseService.getExpensesPaged((id*5) - 5);
-        model.addAttribute("expenses", pair.getValue());
-        model.addAttribute("pages", pair.getKey());
+        setModel(model, pair);
         return "expenses/personal/list";
     }
 

@@ -61,15 +61,13 @@ public class PersonalExpenseDao extends AbstractDao {
     }
 
     @Transactional
-    public PersonalExpense deleteById(Long id) {
+    public boolean deleteById(Long id) {
         PersonalExpense personalExpense = findById(id);
         if(personalExpense != null) {
             queryDelete("PersonalExpense", id);
-
-            LOGGER.info("Deleted " + personalExpense.toString());
-            return personalExpense;
+            return true;
         }
-        return null;
+        return false;
     }
 
     public PersonalExpense findById(Long id) {

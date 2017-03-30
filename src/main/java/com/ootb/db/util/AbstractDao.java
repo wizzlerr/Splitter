@@ -5,6 +5,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -51,7 +52,9 @@ public abstract class AbstractDao {
 
     protected void  delete(Object object) {
         Session session = sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
         session.delete(session.contains(object) ? object : session.merge(object));
+        tx.commit();
         session.flush();
         session.close();
 
@@ -72,6 +75,17 @@ public abstract class AbstractDao {
         session.flush();
         session.close();
         return false;
+    }
+
+    protected void delete(Class<?> type, Long id) {
+        Session session = sessionFactory.openSession();
+        Object object = session.load(type, id);
+        Transaction tx = session.beginTransaction();
+        session.delete(object);
+        tx.commit();
+        session.close();
+
+        LOGGER.info("Deleted " + object.toString());
     }
 
     protected void queryDelete(String clazz, Long id) {

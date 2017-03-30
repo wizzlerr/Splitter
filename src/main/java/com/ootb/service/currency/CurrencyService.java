@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Currency;
 import java.util.List;
@@ -31,8 +33,17 @@ public class CurrencyService {
     protected static @InjectLogger Logger LOGGER;
 
     public List<Currency> getSortedCurrencies() {
-        return getAvailableCurrencies().stream()
+        List<Currency> currencies = getAvailableCurrencies().stream()
                 .sorted(Comparator.comparing(Currency::getCurrencyCode)).collect(Collectors.toList());
+        List<String> convertibleCurrencies = getStringCurrencies();
+        currencies.removeIf(cur -> {
+            if(convertibleCurrencies.contains(cur.getCurrencyCode())) {
+                return false;
+            }
+            return true;
+        });
+
+        return currencies;
     }
 
     public BigDecimal getConvertedCurrencyToPLN(BigDecimal expense, Currency currency) {
@@ -58,5 +69,16 @@ public class CurrencyService {
         }
 
         return BigDecimal.ZERO;
+    }
+
+    private List<String> getStringCurrencies() {
+        List<com.ritaja.xchangerate.util.Currency> convertibleCurrencies = Arrays.asList(com.ritaja.xchangerate.util.Currency.values());
+        List<String> currencies = new ArrayList<>();
+
+        for(com.ritaja.xchangerate.util.Currency currency : convertibleCurrencies) {
+            currencies.add(currency.toString());
+        }
+
+        return currencies;
     }
 }

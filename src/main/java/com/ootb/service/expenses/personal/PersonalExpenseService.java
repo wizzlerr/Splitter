@@ -45,7 +45,7 @@ public class PersonalExpenseService {
     }
 
     public void deleteExpense(Long id) {
-        if(personalExpenseDao.deleteById(id) == null) {
+        if(!personalExpenseDao.deleteById(id)) {
             notificationService.addWarningMessage("Brak wydatku");
         }
         notificationService.addInfoMessage("Usunięto wydatek");
