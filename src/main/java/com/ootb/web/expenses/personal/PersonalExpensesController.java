@@ -1,7 +1,6 @@
 package com.ootb.web.expenses.personal;
 
 import com.ootb.service.currency.CurrencyService;
-import com.ootb.service.currency.util.PersonalExpenseTotalSum;
 import com.ootb.service.expenses.common.ExpenseCategory;
 import com.ootb.service.expenses.personal.PersonalExpenseService;
 import com.ootb.service.expenses.personal.type.PersonalExpense;
@@ -38,9 +37,6 @@ public class PersonalExpensesController {
     private PersonalExpenseService personalExpenseService;
 
     @Autowired
-    private PersonalExpenseTotalSum personalExpenseTotalSum;
-
-    @Autowired
     private CurrencyService currencyService;
 
     @RequestMapping(value = "/my-expenses")
@@ -53,7 +49,7 @@ public class PersonalExpensesController {
     private void setModel(Model model, Pair<Integer, List<PersonalExpense>> pair) {
         model.addAttribute("expenses", pair.getValue());
         model.addAttribute("pages", pair.getKey());
-        model.addAttribute("totalSum", personalExpenseTotalSum.getTotalSumDisplay(personalExpenseService.getExpenses()));
+        model.addAttribute("totalSum", personalExpenseService.getTotalSumDisplay());
     }
 
     @RequestMapping(value = "/my-expenses/page/{id}")

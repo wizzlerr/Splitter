@@ -10,7 +10,7 @@ import java.util.Currency;
 /**
  * Created by Adam on 2017-03-26.
  */
-public class PersonalExpense implements Expense {
+public class PersonalExpense extends Expense {
 
     private Long id;
 

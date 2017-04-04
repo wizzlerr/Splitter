@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: site-head">
+    <link rel="stylesheet" href="../public/css/profile.css" th:href="@{/css/profile.css}"/>
+</head>
+<body class="page">
+<header th:replace="layout :: site-header"/>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
+            <div class="well profile">
+                <div class="col-sm-12">
+                    <div class="col-xs-12 col-sm-8">
+                        <h2 th:text="${profile.nick}"></h2>
+                        <p th:if="${profile.isYou}"><strong>Wydatki personalne: <span th:text="${profile.personalExpenseDisplay}"></span> </strong></p>
+                        <!--<p><strong>Skills: </strong>-->
+                            <!--<span class="tags">html5</span>-->
+                            <!--<span class="tags">css3</span>-->
+                            <!--<span class="tags">jquery</span>-->
+                            <!--<span class="tags">bootstrap3</span>-->
+                        <!--</p>-->
+                    </div>
+                </div>
+                <div class="col-xs-12 divider text-center">
+                    <div class="col-xs-12 col-sm-4 emphasis">
+                        <h2><strong th:text="${profile.ownedToYouDisplay}"></strong></h2>
+                        <p><small>Należne Ci</small></p>
+                        <button class="btn btn-success btn-block" th:if="${!profile.isFriend and !profile.isYou}" type="submit" th:href="@{'/auth/friends/' + ${profile.name} + '/add'}"><span class="fa fa-plus-circle"></span> Dodaj znajomego </button>
+                    </div>
+                    <div class="col-xs-12 col-sm-4 emphasis">
+                        <h2><strong th:text="${profile.youOweDisplay}"></strong></h2>
+                        <p><small>Ty należysz</small></p>
+                        <button class="btn btn-dangeer btn-block" th:if="${profile.isFriend and !profile.isYou}" type="submit" th:href="@{'/auth/friends/' + ${profile.name} + '/remove'}"><span class="fa fa-user"></span>Usuń znajomego</button>
+                    </div>
+                    <div class="col-xs-12 col-sm-4 emphasis">
+                        <h2><strong th:text="${profile.balanceDisplay}"></strong></h2>
+                        <p><small>Balans</small></p>
+                        <!--<button class="btn btn-info btn-block"><span class="fa fa-user"></span> View Profile </button>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="layout :: site-footer"/>
+</body>
+</html>

@@ -1,7 +1,8 @@
-package com.ootb.service.currency.util;
+package com.ootb.service.expenses.personal;
 
 import com.ootb.service.currency.CurrencyService;
 import com.ootb.service.expenses.common.Expense;
+import com.ootb.service.expenses.common.TotalSumStrategy;
 import com.ootb.service.expenses.personal.type.PersonalExpense;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

@@ -1,4 +1,4 @@
-package com.ootb.service.currency.util;
+package com.ootb.service.expenses.common;
 
 import java.math.BigDecimal;
 import java.util.List;

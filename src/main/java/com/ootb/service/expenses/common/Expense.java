@@ -6,7 +6,8 @@ import java.util.Currency;
 /**
  * Created by Adam on 2017-03-26.
  */
-public interface Expense {
-    BigDecimal getExpense();
-    Currency getCurrency();
+public abstract class Expense {
+    public abstract Long getId();
+    public abstract BigDecimal getExpense();
+    public abstract Currency getCurrency();
 }

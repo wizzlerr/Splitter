@@ -3,6 +3,8 @@ package com.ootb.service.expenses.personal;
 import com.ootb.db.expenses.personal.dao.PersonalExpenseDao;
 import com.ootb.db.expenses.personal.factory.PersonalExpenseFactory;
 import com.ootb.db.util.Page;
+import com.ootb.service.expenses.common.Expense;
+import com.ootb.service.expenses.common.ExpenseService;
 import com.ootb.service.expenses.personal.type.PersonalExpense;
 import com.ootb.service.infotainment.notification.NotificationService;
 import com.ootb.service.user.UserService;
@@ -10,13 +12,14 @@ import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
  * Created by Adam on 2017-03-26.
  */
 @Service
-public class PersonalExpenseService {
+public class PersonalExpenseService implements ExpenseService {
 
     @Autowired
     private UserService userService;
@@ -30,8 +33,11 @@ public class PersonalExpenseService {
     @Autowired
     private NotificationService notificationService;
 
-    public void registerExpense(PersonalExpense expense) {
-        personalExpenseDao.savePersonalExpense(personalExpenseFactory.getPersonalExpense(expense, userService.getLoggedUser()));
+    @Autowired
+    private PersonalExpenseTotalSum personalExpenseTotalSum;
+
+    public void registerExpense(Expense expense) {
+        personalExpenseDao.savePersonalExpense(personalExpenseFactory.getPersonalExpense((PersonalExpense) expense, userService.getLoggedUser()));
         notificationService.addInfoMessage("Dodano wydatek");
     }
 
@@ -55,13 +61,21 @@ public class PersonalExpenseService {
         return personalExpenseFactory.getPersonalExpense(personalExpenseDao.findById(id));
     }
 
-    public void updateExpense(PersonalExpense expense) {
+    public void updateExpense(Expense expense) {
         com.ootb.db.expenses.personal.type.PersonalExpense dbExpense = personalExpenseDao.findById(expense.getId());
         if(dbExpense == null) {
             notificationService.addWarningMessage("Brak wydatku");
         }
-        dbExpense.update(expense);
+        dbExpense.update((PersonalExpense) expense);
         personalExpenseDao.update(dbExpense);
         notificationService.addInfoMessage("Wydatek zakutalizowany");
+    }
+
+    public String getTotalSumDisplay() {
+        return personalExpenseTotalSum.getTotalSumDisplay(getExpenses());
+    }
+
+    public BigDecimal getTotalSum() {
+        return personalExpenseTotalSum.getTotalSum(getExpenses());
     }
 }
