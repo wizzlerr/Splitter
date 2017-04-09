@@ -20,4 +20,10 @@ public class ProfileFactory {
                 .withBalance(owedToYou.subtract(youOwe))
                 .withIsFriend(false).withIsYou(true).build();
     }
+
+    public Profile getProfile(User user, BigDecimal youOwe, BigDecimal owedToYou, boolean isFriend) {
+        return aProfile().withNick(user.getUserName()).withOwnedToYou(owedToYou)
+                .withYouOwe(youOwe).withBalance(owedToYou.subtract(youOwe))
+                .withIsFriend(isFriend).withIsYou(false).build();
+    }
 }

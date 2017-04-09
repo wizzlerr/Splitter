@@ -1,5 +1,6 @@
 package com.ootb.web.profile;
 
+import com.ootb.service.friends.FriendsService;
 import com.ootb.service.profile.user.ProfileService;
 import com.ootb.web.technical.stereotype.AuthRequestMapping;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ public class ProfileController {
     @Autowired
     private ProfileService profileService;
 
+    @Autowired
+    private FriendsService friendsService;
+
     @RequestMapping(value = "/profile/{name}")
     public String profile(@PathVariable("name") String name, Model model) {
         model.addAttribute("profile", profileService.getProfile(name));
@@ -33,6 +37,17 @@ public class ProfileController {
 
     @RequestMapping(value = "/profile/{name}/add")
     public String profileAdd(@PathVariable("name") String name, Model model) {
+        if(name != null && !name.isEmpty()) {
+            friendsService.addFriend(name);
+        }
+        return "profile/profile";
+    }
+
+    @RequestMapping(value = "/profile/{name}/remove")
+    public String profileRemove(@PathVariable("name") String name, Model model) {
+        if(name != null && !name.isEmpty()) {
+            friendsService.removeFriend(name);
+        }
         return "profile/profile";
     }
 }

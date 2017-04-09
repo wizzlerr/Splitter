@@ -9,6 +9,8 @@ public class FriendsFilter {
 
     private Long friendshipId;
     private User user;
+    private User friend;
+    private boolean confirmed;
 
     public Long getFriendshipId() {
         return friendshipId;
@@ -26,10 +28,27 @@ public class FriendsFilter {
         this.user = user;
     }
 
+    public boolean isConfirmed() {
+        return confirmed;
+    }
+
+    public void setConfirmed(boolean confirmed) {
+        this.confirmed = confirmed;
+    }
+
+    public User getFriend() {
+        return friend;
+    }
+
+    public void setFriend(User friend) {
+        this.friend = friend;
+    }
 
     public static final class FriendsFilterBuilder {
         private Long friendshipId;
         private User user;
+        private User friend;
+        private boolean confirmed;
 
         private FriendsFilterBuilder() {
         }
@@ -48,10 +67,22 @@ public class FriendsFilter {
             return this;
         }
 
+        public FriendsFilterBuilder withFriend(User friend) {
+            this.friend = friend;
+            return this;
+        }
+
+        public FriendsFilterBuilder withConfirmed(boolean confirmed) {
+            this.confirmed = confirmed;
+            return this;
+        }
+
         public FriendsFilter build() {
             FriendsFilter friendsFilter = new FriendsFilter();
             friendsFilter.setFriendshipId(friendshipId);
             friendsFilter.setUser(user);
+            friendsFilter.setFriend(friend);
+            friendsFilter.setConfirmed(confirmed);
             return friendsFilter;
         }
     }

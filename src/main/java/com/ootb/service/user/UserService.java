@@ -2,6 +2,7 @@ package com.ootb.service.user;
 
 import com.ootb.db.user.dao.UsersDao;
 import com.ootb.db.user.type.User;
+import com.ootb.service.infotainment.notification.NotificationService;
 import com.ootb.service.user.type.UserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,6 +18,9 @@ public class UserService {
 
     @Autowired
     private UsersDao usersDao;
+
+    @Autowired
+    private NotificationService notificationService;
 
     public boolean isUserNameAvaiable(String userName) {
         return usersDao.findByUserName(userName) == null;
@@ -57,5 +61,13 @@ public class UserService {
         User loggedUser = getLoggedUser();
         users.removeIf(user -> user.getUserName().equals(loggedUser.getUserName()));
         return users;
+    }
+
+    public User getUser(String nick) {
+        User user = usersDao.findByUserName(nick);
+        if(user == null) {
+            notificationService.addDangerMessage("Nie znaleziono użytkownika " + nick);
+        }
+        return user;
     }
 }

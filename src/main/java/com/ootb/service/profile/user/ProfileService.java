@@ -51,7 +51,10 @@ public class ProfileService {
     }
 
     public Profile getProfile(String nick) {
-        return null;
+        User user = userService.getUser(nick);
+        BigDecimal youOwe = expensesService.getTotalYouOwe(nick);
+        BigDecimal owedToYou = expensesService.getTotalOwedToYou(nick);
+        return profileFactory.getProfile(user, youOwe, owedToYou, friendsService.isFriend(nick));
     }
 
     public Profile getProfile() {
