@@ -6,10 +6,10 @@ import java.util.Arrays;
  * Created by Adam on 2017-03-11.
  */
 public class NotificationMessage {
-    NotificationMessageType type;
-    String text;
-    String cssClass;
-    String strongText;
+    private NotificationMessageType type;
+    private String text;
+    private String cssClass;
+    private String strongText;
 
     public NotificationMessage(NotificationMessageType type, String text) {
         this.type = type;

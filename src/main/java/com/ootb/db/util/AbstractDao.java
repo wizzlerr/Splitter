@@ -31,7 +31,7 @@ public abstract class AbstractDao {
     }
 
     protected void persist(Object object) {
-        Session session = sessionFactory.openSession();
+        Session session = getSession();
         session.beginTransaction();
         session.persist(object);
         session.getTransaction().commit();
@@ -41,7 +41,7 @@ public abstract class AbstractDao {
     }
 
     protected void update(Object object) {
-        Session session = sessionFactory.openSession();
+        Session session = getSession();
         session.beginTransaction();
         session.merge(object);
         session.getTransaction().commit();
@@ -51,7 +51,7 @@ public abstract class AbstractDao {
     }
 
     protected void  delete(Object object) {
-        Session session = sessionFactory.openSession();
+        Session session = getSession();
         Transaction tx = session.beginTransaction();
         session.delete(session.contains(object) ? object : session.merge(object));
         tx.commit();
@@ -62,7 +62,7 @@ public abstract class AbstractDao {
     }
 
     protected boolean deleteById(Class<?> type, Serializable id) {
-        Session session = sessionFactory.openSession();
+        Session session = getSession();
         Object persistentInstance = session.load(type, id);
         if (persistentInstance != null) {
             session.delete(persistentInstance);
@@ -78,7 +78,7 @@ public abstract class AbstractDao {
     }
 
     protected void delete(Class<?> type, Long id) {
-        Session session = sessionFactory.openSession();
+        Session session = getSession();
         Object object = session.load(type, id);
         Transaction tx = session.beginTransaction();
         session.delete(object);
@@ -89,10 +89,18 @@ public abstract class AbstractDao {
     }
 
     protected void queryDelete(String clazz, Long id) {
-        Session session = sessionFactory.openSession();
+        Session session = getSession();
         Query query = session.createQuery("delete " + clazz +" where id = :delId");
         query.setParameter("delId", id);
 
         query.executeUpdate();
+    }
+
+    private Session getSession() {
+        return sessionFactory.openSession();
+    }
+
+    protected Criteria getCriteria(Class clazz) {
+        return getSession().createCriteria(clazz);
     }
 }

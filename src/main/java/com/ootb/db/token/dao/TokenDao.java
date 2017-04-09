@@ -35,7 +35,7 @@ public class TokenDao extends AbstractDao {
     }
 
     public List<VerificationToken> findByFilter(VerificationTokenFilter verificationTokenFilter) {
-        Criteria criteria = sessionFactory.openSession().createCriteria(VerificationToken.class);
+        Criteria criteria = getCriteria(VerificationToken.class);
 
         if(verificationTokenFilter.getId()!=null){
             criteria.add(Expression.eq("id",verificationTokenFilter.getId()));

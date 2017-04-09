@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: site-head">
+
+</head>
+<body class="page">
+<header th:replace="layout :: site-header"/>
+
+<div class="container-fluid page">
+
+    <div class="page-header page-header-custom">
+        <form class="form-inline pull-right" method="post" th:action="@{/auth/friends/search}" th:object="${friendsForm}">
+            <input type="text" class="form-control" placeholder="Szukaj znajomych" th:field="*{searchInput}"/>
+        </form>
+        <div class="btn-toolbar pull-right">
+            <span class="btn btn-primary disabled" role="button" th:text="${owedToYou}">
+                </span>
+        </div>
+        <div class="btn-toolbar pull-right">
+            <span class="btn btn-primary disabled" role="button" th:text="${youOwe}">
+                </span>
+        </div>
+        <h1 class="page-header-custom">Znajomi</h1>
+    </div>
+
+    <div class="page-header page-header-custom" th:if="${#lists.isEmpty(friends)}">
+        <h3 class="page-header-custom">Brak znajomych</h3>
+    </div>
+
+    <table class="table table-hover" th:if="${not #lists.isEmpty(friends)}">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Nick</th>
+            <th>Należy Ci</th>
+            <th>Należysz mu</th>
+            <th>Balans</th>
+            <th>Akcja</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="exp,iterationStatus  : ${friends}">
+            <th scope="row" th:text="${iterationStatus.count}"></th>
+            <td th:text="${exp.nick}"></td>
+            <td th:text="${exp.blance}"></td>
+            <td>
+                <ul>
+                    <li><a class="anchor-no-underline" th:href="@{'/auth/profile/' + ${exp.nick}}">Profil</a></li>
+                </ul>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <nav aria-label="Page navigation" th:if="${pages > 1}">
+        <ul class="pagination" th:each="i : ${#numbers.sequence(1, pages)}">
+            <li><a th:href="@{'/auth/friends/page' + ${i}}" th:text="${i}"></a></li>
+        </ul>
+    </nav>
+
+</div>
+
+<footer th:replace="layout :: site-footer"/>
+</body>
+</html>

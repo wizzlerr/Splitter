@@ -1,6 +1,7 @@
 package com.ootb.db.user.type;
 
 import com.ootb.db.expenses.personal.type.PersonalExpense;
+import com.ootb.db.friends.type.Friend;
 import com.ootb.db.token.type.VerificationToken;
 import org.hibernate.validator.constraints.Email;
 
@@ -54,6 +55,12 @@ public class User {
 
     @OneToOne(mappedBy="user", cascade=CascadeType.ALL)
     private PersonalExpense personalExpense;
+
+    @OneToOne(mappedBy="firstUser", cascade=CascadeType.ALL)
+    private Friend firstFriend;
+
+    @OneToOne(mappedBy="secondUser", cascade=CascadeType.ALL)
+    private Friend secondFriend;
 
     public User() {
     }
@@ -120,6 +127,22 @@ public class User {
 
     public void setPersonalExpense(PersonalExpense personalExpense) {
         this.personalExpense = personalExpense;
+    }
+
+    public Friend getFirstFriend() {
+        return firstFriend;
+    }
+
+    public void setFirstFriend(Friend firstFriend) {
+        this.firstFriend = firstFriend;
+    }
+
+    public Friend getSecondFriend() {
+        return secondFriend;
+    }
+
+    public void setSecondFriend(Friend secondFriend) {
+        this.secondFriend = secondFriend;
     }
 
     private void setDefaultRole() {

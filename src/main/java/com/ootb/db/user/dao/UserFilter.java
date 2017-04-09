@@ -10,6 +10,7 @@ public class UserFilter extends AbstractFilter {
     private String userName;
     private String email;
     private String id;
+    private boolean enabled;
 
     public String getUserName() {
         return userName;
@@ -35,12 +36,19 @@ public class UserFilter extends AbstractFilter {
         this.id = id;
     }
 
-    private UserFilter(){}
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
 
     public static final class UserFilterBuilder {
         private String userName;
         private String email;
         private String id;
+        private boolean enabled;
 
         private UserFilterBuilder() {
         }
@@ -64,11 +72,17 @@ public class UserFilter extends AbstractFilter {
             return this;
         }
 
+        public UserFilterBuilder withEnabled(boolean enabled) {
+            this.enabled = enabled;
+            return this;
+        }
+
         public UserFilter build() {
             UserFilter userFilter = new UserFilter();
             userFilter.setUserName(userName);
             userFilter.setEmail(email);
             userFilter.setId(id);
+            userFilter.setEnabled(enabled);
             return userFilter;
         }
     }

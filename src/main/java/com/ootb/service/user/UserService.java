@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by Adam on 2017-03-11.
  */
@@ -40,5 +42,20 @@ public class UserService {
     public User getLoggedUser() {
         UserDetail userDetail = (UserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return usersDao.findByUserName(userDetail.getUsername());
+    }
+
+    public List<User> getAllUsers() {
+        return usersDao.findAll();
+    }
+
+    public List<User> getAllEnabledUsers() {
+        return usersDao.findAllEnabled();
+    }
+
+    public List<User> getEnabledUsers() {
+        List<User> users = getAllEnabledUsers();
+        User loggedUser = getLoggedUser();
+        users.removeIf(user -> user.getUserName().equals(loggedUser.getUserName()));
+        return users;
     }
 }

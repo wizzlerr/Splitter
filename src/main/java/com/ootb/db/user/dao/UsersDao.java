@@ -34,7 +34,7 @@ public class UsersDao extends AbstractDao {
     }
 
     public List<User> findAllByFilter(UserFilter userFilter) {
-        Criteria criteria = sessionFactory.openSession().createCriteria(User.class);
+        Criteria criteria = getCriteria(User.class);
 
         if(userFilter.getEmail()!=null){
             criteria.add(Expression.eq("email",userFilter.getEmail()));
@@ -45,6 +45,9 @@ public class UsersDao extends AbstractDao {
         if(userFilter.getUserName()!=null){
             criteria.add(Expression.eq("userName",userFilter.getUserName()));
         }
+        if(userFilter.isEnabled()){
+            criteria.add(Expression.eq("enabled",userFilter.isEnabled()));
+        }
         return criteria.list();
     }
 
@@ -54,5 +57,13 @@ public class UsersDao extends AbstractDao {
 
     public void updateUseer(User user) {
         update(user);
+    }
+
+    public List<User> findAll() {
+        return (List<User>) find(User.class);
+    }
+
+    public List<User> findAllEnabled() {
+        return findAllByFilter(anUserFilter().withEnabled(true).build());
     }
 }

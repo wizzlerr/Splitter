@@ -30,17 +30,14 @@ public class CurrencyService {
     @Autowired
     private CurrencyConverter currencyConverter;
 
-    protected static @InjectLogger Logger LOGGER;
+    private static @InjectLogger Logger LOGGER;
 
     public List<Currency> getSortedCurrencies() {
         List<Currency> currencies = getAvailableCurrencies().stream()
                 .sorted(Comparator.comparing(Currency::getCurrencyCode)).collect(Collectors.toList());
         List<String> convertibleCurrencies = getStringCurrencies();
         currencies.removeIf(cur -> {
-            if(convertibleCurrencies.contains(cur.getCurrencyCode())) {
-                return false;
-            }
-            return true;
+            return !convertibleCurrencies.contains(cur.getCurrencyCode());
         });
 
         return currencies;

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: site-head">
+
+</head>
+<body class="page">
+<header th:replace="layout :: site-header"/>
+
+<div class="container-fluid page">
+
+    <div class="page-header page-header-custom">
+        <h1 class="page-header-custom">Wynik wyszukiwania</h1>
+    </div>
+
+    <div class="page-header page-header-custom" th:if="${#lists.isEmpty(userList)}">
+        <h3 class="page-header-custom">Brak wyników pasujących do kryterium wyszukiwania</h3>
+    </div>
+
+    <table class="table table-hover" th:if="${not #lists.isEmpty(userList)}">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Nick</th>
+            <th>Akcja</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="exp,iterationStatus  : ${userList}">
+            <th scope="row" th:text="${iterationStatus.count}"></th>
+            <td th:text="${exp.name}"></td>
+            <td>
+                <ul>
+                    <li><a class="anchor-no-underline" th:href="@{'/auth/profile/' + ${exp.name}}">Profil</a></li>
+                    <li><a class="anchor-no-underline" th:href="@{'/auth/profile/' + ${exp.name} +'/add'}">Dodaj znajomego</a></li>
+                </ul>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <nav aria-label="Page navigation" th:if="${pages > 1}">
+        <ul class="pagination" th:each="i : ${#numbers.sequence(1, pages)}">
+            <li><a th:href="@{'/auth/friends/search/' + ${search} + '/' + ${i}}" th:text="${i}"></a></li>
+        </ul>
+    </nav>
+
+</div>
+
+<footer th:replace="layout :: site-footer"/>
+</body>
+</html>

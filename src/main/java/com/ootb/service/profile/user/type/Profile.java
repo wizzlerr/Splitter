@@ -1,4 +1,4 @@
-package com.ootb.service.profile.type;
+package com.ootb.service.profile.user.type;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

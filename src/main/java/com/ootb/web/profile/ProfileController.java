@@ -1,6 +1,6 @@
 package com.ootb.web.profile;
 
-import com.ootb.service.profile.ProfileService;
+import com.ootb.service.profile.user.ProfileService;
 import com.ootb.web.technical.stereotype.AuthRequestMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,6 +28,11 @@ public class ProfileController {
     @RequestMapping(value = "/profile")
     public String profile(Model model) {
         model.addAttribute("profile", profileService.getProfile());
+        return "profile/profile";
+    }
+
+    @RequestMapping(value = "/profile/{name}/add")
+    public String profileAdd(@PathVariable("name") String name, Model model) {
         return "profile/profile";
     }
 }
