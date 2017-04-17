@@ -25,7 +25,7 @@ public class EventService {
         List<User> users = new ArrayList<>();
         users.add(friend);
         Event event = anEvent().withEventType(EventType.NEW_FRIEND_INVITATION).withUsers(users).build();
-        eventDao.save(event);
+        eventDao.update(event);
     }
 
     public void addFriendDeleteEvent(User friend) {

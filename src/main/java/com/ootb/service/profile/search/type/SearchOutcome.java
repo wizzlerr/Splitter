@@ -3,7 +3,7 @@ package com.ootb.service.profile.search.type;
 /**
  * Created by Adam on 2017-04-06.
  */
-public class SearchOutcome {
+public class SearchOutcome implements Comparable{
 
     private String name;
     private String url;
@@ -41,6 +41,11 @@ public class SearchOutcome {
         this.profileUrl = profileUrl;
     }
 
+    @Override
+    public int compareTo(Object o) {
+        return this.name.compareTo(((SearchOutcome)o).getName());
+    }
+
     public static final class SearchOutcomeBuilder {
         private String name;
         private String url;
@@ -69,4 +74,6 @@ public class SearchOutcome {
             return searchOutcome;
         }
     }
+
+
 }

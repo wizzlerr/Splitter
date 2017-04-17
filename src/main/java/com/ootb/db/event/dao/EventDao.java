@@ -51,4 +51,9 @@ public class EventDao extends AbstractDao {
         persist(event);
     }
 
+    public void update(Event event) {
+        super.update(event);
+    }
+
+
 }

@@ -40,7 +40,7 @@ public class ProfileController {
         if(name != null && !name.isEmpty()) {
             friendsService.addFriend(name);
         }
-        return "profile/profile";
+        return "redirect:/auth/profile";
     }
 
     @RequestMapping(value = "/profile/{name}/remove")
@@ -48,6 +48,6 @@ public class ProfileController {
         if(name != null && !name.isEmpty()) {
             friendsService.removeFriend(name);
         }
-        return "profile/profile";
+        return "redirect:/auth/profile";
     }
 }

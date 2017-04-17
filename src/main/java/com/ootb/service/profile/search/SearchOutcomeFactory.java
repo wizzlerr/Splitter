@@ -28,7 +28,13 @@ public class SearchOutcomeFactory {
             searchOutcomesLevenstein.put(searchOutcome, StringUtils.getLevenshteinDistance(searchInput, searchOutcome.getName()));
         }
 
-        searchOutcomesLevenstein.entrySet().stream().sorted(Map.Entry.<SearchOutcome, Integer>comparingByValue())
+        searchOutcomesLevenstein.entrySet().stream().sorted(
+                (e1, e2) -> (
+                        e1.getValue().compareTo(e2.getValue()) != 0 ?
+                                e1.getValue().compareTo(e2.getValue()) :
+                                e1.getKey().compareTo(e2.getKey())
+                        )
+        )
                 .forEachOrdered(x -> result.add(x.getKey()));
 
         for(SearchOutcome searchOutcome : result) {
