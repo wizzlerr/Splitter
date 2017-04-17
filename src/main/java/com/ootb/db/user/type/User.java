@@ -1,5 +1,6 @@
 package com.ootb.db.user.type;
 
+import com.ootb.db.event.type.Event;
 import com.ootb.db.expenses.personal.type.PersonalExpense;
 import com.ootb.db.friends.type.Friend;
 import com.ootb.db.token.type.VerificationToken;
@@ -12,10 +13,12 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static com.ootb.db.user.type.UserRole.UserRoleBuilder.anUserRole;
@@ -61,6 +64,9 @@ public class User {
 
     @OneToOne(mappedBy="secondUser", cascade=CascadeType.ALL)
     private Friend secondFriend;
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
+    private List<Event> events;
 
     public User() {
     }
@@ -143,6 +149,14 @@ public class User {
 
     public void setSecondFriend(Friend secondFriend) {
         this.secondFriend = secondFriend;
+    }
+
+    public List<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<Event> events) {
+        this.events = events;
     }
 
     private void setDefaultRole() {
