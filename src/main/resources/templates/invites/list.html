@@ -9,11 +9,11 @@
 <div class="container-fluid page">
 
     <div class="page-header page-header-custom">
-        <h1 class="page-header-custom">Zaproszenia</h1>
+        <h1 class="page-header-custom">Powiadomienia</h1>
     </div>
 
     <div class="page-header page-header-custom" th:if="${#lists.isEmpty(invites)}">
-        <h3 class="page-header-custom">Brak zaproszeń</h3>
+        <h3 class="page-header-custom">Brak powiadomień</h3>
     </div>
 
     <table class="table table-hover" th:if="${not #lists.isEmpty(invites)}">
