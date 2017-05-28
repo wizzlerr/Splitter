@@ -56,8 +56,8 @@ public class User {
     @OneToOne(mappedBy="user", cascade=CascadeType.ALL)
     private VerificationToken verificationToken;
 
-    @OneToOne(mappedBy="user", cascade=CascadeType.ALL)
-    private PersonalExpense personalExpense;
+    @OneToMany(mappedBy="user", cascade=CascadeType.ALL)
+    private Set<PersonalExpense> personalExpense;
 
     @OneToOne(mappedBy="firstUser", cascade=CascadeType.ALL)
     private Friend firstFriend;
@@ -127,11 +127,11 @@ public class User {
         this.verificationToken = verificationToken;
     }
 
-    public PersonalExpense getPersonalExpense() {
+    public Set<PersonalExpense> getPersonalExpense() {
         return personalExpense;
     }
 
-    public void setPersonalExpense(PersonalExpense personalExpense) {
+    public void setPersonalExpense(Set<PersonalExpense> personalExpense) {
         this.personalExpense = personalExpense;
     }
 

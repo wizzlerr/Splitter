@@ -53,7 +53,7 @@ public class FriendListController {
     public String friendsListPage(@PathVariable("id") int id, Model model) {
         Pair<Integer, List<Profile>> pair = profileService.getProfilesPaged((id*5) - 5);
         setModel(model, pair);
-        return "redirect:/friends";
+        return "redirect:/auth/friends";
     }
 
     @RequestMapping(value = "/friend/confirm/{id}")
