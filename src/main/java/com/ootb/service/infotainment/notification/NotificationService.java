@@ -40,7 +40,7 @@ public class NotificationService {
                 httpSession.getAttribute(NOTIFY_MSG_SESSION_KEY);
 
         if (notifyMessages == null) {
-            notifyMessages = new ArrayList<NotificationMessage>();
+            notifyMessages = new ArrayList<>();
         }
         notifyMessages.add(new NotificationMessage(type, msg));
         httpSession.setAttribute(NOTIFY_MSG_SESSION_KEY, notifyMessages);

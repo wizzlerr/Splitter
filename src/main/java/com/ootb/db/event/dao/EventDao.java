@@ -39,7 +39,7 @@ public class EventDao extends AbstractDao {
             criteria.add(Expression.eq("eventId",eventFilter.getEventType()));
         }
         if(eventFilter.getEventType()!=null){
-            criteria.add(Expression.eq("eventType",eventFilter.getEventType()));
+            criteria.add(Expression.in("eventType",eventFilter.getEventType()));
         }
         if(eventFilter.getUsers()!=null){
             criteria.add(Expression.in("id",eventFilter.getUsers()));

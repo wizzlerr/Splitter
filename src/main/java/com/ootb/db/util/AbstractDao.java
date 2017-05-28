@@ -29,24 +29,20 @@ public abstract class AbstractDao {
         sessionFactory.getCurrentSession().close();
         return criteria.list();
     }
-
     protected void persist(Object object) {
         Session session = getSession();
         session.beginTransaction();
         session.persist(object);
         session.getTransaction().commit();
         session.close();
-
         LOGGER.info("Persisted " + object.toString());
     }
-
     protected void update(Object object) {
         Session session = getSession();
         session.beginTransaction();
         session.merge(object);
         session.getTransaction().commit();
         session.close();
-
         LOGGER.info("Updated " + object.toString());
     }
 
@@ -57,7 +53,6 @@ public abstract class AbstractDao {
         tx.commit();
         session.flush();
         session.close();
-
         LOGGER.info("Deleted " + object.toString());
     }
 

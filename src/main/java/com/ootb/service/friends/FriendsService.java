@@ -48,6 +48,10 @@ public class FriendsService {
         return friendsFactory.getFriends(friendsDao.findByUser(loggedUser), loggedUser);
     }
 
+    public List<com.ootb.db.friends.type.Friend> getPendingFriends() {
+        return friendsDao.findPendingFriends(userService.getLoggedUser());
+    }
+
     public List<Friend> getNonFriends() {
         List<User> allUsers = userService.getEnabledUsers();
         List<Friend> friends = getFriends();
@@ -85,6 +89,17 @@ public class FriendsService {
     public void removeFriend(String name) {
         if(friendsDao.remove(userService.getLoggedUser(), userService.getUser(name))) {
             notificationService.addInfoMessage("Usunięto znajomego");
+        }
+    }
+
+    public void confirmFriend(long id) {
+        com.ootb.db.friends.type.Friend friend = friendsDao.findById(id);
+
+        if(friend.getSecondUser().getId().equals(userService.getLoggedUser().getId())) {
+            friendsDao.confirmFriend(id);
+            notificationService.addSuccessMessage("Pomyslnie dodano znajomego");
+        } else {
+            notificationService.addDangerMessage("Brak znajomego lub brak uprawnien do potwierdzenia znajomosci.");
         }
     }
 }

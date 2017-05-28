@@ -14,7 +14,7 @@ public class EventFilter {
 
     private List<User> users;
 
-    private EventType eventType;
+    private List<EventType> eventType;
 
     public Long getId() {
         return id;
@@ -32,18 +32,18 @@ public class EventFilter {
         this.users = users;
     }
 
-    public EventType getEventType() {
+    public List<EventType> getEventType() {
         return eventType;
     }
 
-    public void setEventType(EventType eventType) {
+    public void setEventType(List<EventType> eventType) {
         this.eventType = eventType;
     }
 
     public static final class EventFilterBuilder {
         private Long id;
         private List<User> users;
-        private EventType eventType;
+        private List<EventType> eventType;
 
         private EventFilterBuilder() {
         }
@@ -62,7 +62,7 @@ public class EventFilter {
             return this;
         }
 
-        public EventFilterBuilder withEventType(EventType eventType) {
+        public EventFilterBuilder withEventType(List<EventType> eventType) {
             this.eventType = eventType;
             return this;
         }

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,11 +40,15 @@ public class ProfileService {
     public Pair<Integer, List<Profile>> getProfilesPaged(int startIndex) {
         List<Friend> friends = friendsService.getFriends();
         Page page = new Page(friends, startIndex);
-        return new Pair<>(page.getTotalPages(), getProfiles((List<Friend>) page.getObjects()));
+        return new Pair<Integer, List<Profile>>(page.getTotalPages(), getProfiles((List<Friend>) page.getObjects()));
     }
 
     public List<Profile> getProfiles(List<Friend> friends) {
-        return null;
+        List<Profile> profiles = new ArrayList<>();
+        for(Friend friend : friends) {
+            profiles.add(getProfile(friend.getNick()));
+        }
+        return profiles;
     }
 
     public Profile getProfile(int userId) {

@@ -34,7 +34,7 @@ public class Event {
     private List<User> users;
 
     @Column(name = "eventType")
-    private EventType eventType;
+    private String eventType;
 
     @Column(name = "jsonEventObjectBefore")
     private String jsonEventObjectBefore;
@@ -61,11 +61,11 @@ public class Event {
         this.users = users;
     }
 
-    public EventType getEventType() {
+    public String getEventType() {
         return eventType;
     }
 
-    public void setEventType(EventType eventType) {
+    public void setEventType(String eventType) {
         this.eventType = eventType;
     }
 
@@ -88,7 +88,7 @@ public class Event {
 
     public static final class EventBuilder {
         private List<User> users;
-        private EventType eventType;
+        private String eventType;
         private String jsonEventObjectBefore;
         private String jsonEventObjectAfter;
 
@@ -104,7 +104,7 @@ public class Event {
             return this;
         }
 
-        public EventBuilder withEventType(EventType eventType) {
+        public EventBuilder withEventType(String eventType) {
             this.eventType = eventType;
             return this;
         }

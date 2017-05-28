@@ -75,8 +75,4 @@ public class EmailService {
             // runtime exception; compiler will not force you to handle it
         }
     }
-
-
-
-
 }

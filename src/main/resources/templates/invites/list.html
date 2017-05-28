@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: site-head">
+
+</head>
+<body class="page">
+<header th:replace="layout :: site-header"/>
+
+<div class="container-fluid page">
+
+    <div class="page-header page-header-custom">
+        <h1 class="page-header-custom">Zaproszenia</h1>
+    </div>
+
+    <div class="page-header page-header-custom" th:if="${#lists.isEmpty(invites)}">
+        <h3 class="page-header-custom">Brak zaproszeń</h3>
+    </div>
+
+    <table class="table table-hover" th:if="${not #lists.isEmpty(invites)}">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Nazwa</th>
+            <th>Akcja</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="exp,iterationStatus  : ${invites}">
+            <th scope="row" th:text="${iterationStatus.count}"></th>
+            <td th:text="${exp.inviteDefinition}"></td>
+            <td><a class="anchor-no-underline" th:href="@{''+${exp.inviteAction}}">Potwierdź</a></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <nav aria-label="Page navigation" th:if="${pages > 1}">
+        <ul class="pagination" th:each="i : ${#numbers.sequence(1, pages)}">
+            <li><a th:href="@{'/auth/invites/page' + ${i}}" th:text="${i}"></a></li>
+        </ul>
+    </nav>
+
+</div>
+
+<footer th:replace="layout :: site-footer"/>
+</body>
+</html>

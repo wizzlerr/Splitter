@@ -42,7 +42,9 @@
         <tr th:each="exp,iterationStatus  : ${friends}">
             <th scope="row" th:text="${iterationStatus.count}"></th>
             <td th:text="${exp.nick}"></td>
-            <td th:text="${exp.blance}"></td>
+            <td th:text="${exp.ownedToYouDisplay}"></td>
+            <td th:text="${exp.youOweDisplay}"></td>
+            <td th:text="${exp.balanceDisplay}"></td>
             <td>
                 <ul>
                     <li><a class="anchor-no-underline" th:href="@{'/auth/profile/' + ${exp.nick}}">Profil</a></li>

@@ -23,6 +23,14 @@ public class Page {
 
     }
 
+    public static int getNoPages(List<?> objects) {
+        if(objects.size() % 5 == 0) {
+            return objects.size() / 5;
+        } else {
+            return objects.size() / 5 + 1;
+        }
+    }
+
     public List<?> getObjects() {
         return objects;
     }
@@ -37,13 +45,5 @@ public class Page {
 
     public void setTotalPages(int totalPages) {
         this.totalPages = totalPages;
-    }
-
-    public static int getNoPages(List<?> objects) {
-        if(objects.size() % 5 == 0) {
-            return objects.size() / 5;
-        } else {
-            return objects.size() / 5 + 1;
-        }
     }
 }

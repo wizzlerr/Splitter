@@ -1,6 +1,7 @@
 package com.ootb.web.friend;
 
 import com.ootb.service.expenses.common.ExpensesService;
+import com.ootb.service.friends.FriendsService;
 import com.ootb.service.infotainment.notification.NotificationService;
 import com.ootb.service.profile.search.GroupAndProfileSearchService;
 import com.ootb.service.profile.search.type.SearchOutcome;
@@ -38,6 +39,9 @@ public class FriendListController {
     @Autowired
     private ExpensesService expensesService;
 
+    @Autowired
+    private FriendsService friendsService;
+
     @RequestMapping(value = "/friends")
     public String friendList(Model model) {
         Pair<Integer, List<Profile>> pair = profileService.getProfilesPaged(0);
@@ -49,6 +53,12 @@ public class FriendListController {
     public String friendsListPage(@PathVariable("id") int id, Model model) {
         Pair<Integer, List<Profile>> pair = profileService.getProfilesPaged((id*5) - 5);
         setModel(model, pair);
+        return "redirect:/friends";
+    }
+
+    @RequestMapping(value = "/friend/confirm/{id}")
+    public String confirmFriend(@PathVariable("id") long id, Model model) {
+        friendsService.confirmFriend(id);
         return "friends/list";
     }
 
