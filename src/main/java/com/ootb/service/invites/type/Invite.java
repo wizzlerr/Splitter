@@ -6,7 +6,8 @@ package com.ootb.service.invites.type;
 public class Invite {
     private String inviteType;
     private String inviteDefinition;
-    private String inviteAction;
+    private String inviteActionConfirm;
+    private String inviteActionDelete;
 
     public String getInviteType() {
         return inviteType;
@@ -24,11 +25,19 @@ public class Invite {
         this.inviteDefinition = inviteDefinition;
     }
 
-    public String getInviteAction() {
-        return inviteAction;
+    public String getInviteActionConfirm() {
+        return inviteActionConfirm;
     }
 
-    public void setInviteAction(String inviteAction) {
-        this.inviteAction = inviteAction;
+    public void setInviteActionConfirm(String inviteActionConfirm) {
+        this.inviteActionConfirm = inviteActionConfirm;
+    }
+
+    public String getInviteActionDelete() {
+        return inviteActionDelete;
+    }
+
+    public void setInviteActionDelete(String inviteActionDelete) {
+        this.inviteActionDelete = inviteActionDelete;
     }
 }

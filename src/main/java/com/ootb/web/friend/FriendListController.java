@@ -62,6 +62,12 @@ public class FriendListController {
         return "friends/list";
     }
 
+    @RequestMapping(value = "/friend/delete/{id}")
+    public String deleteFriend(@PathVariable("id") long id, Model model) {
+        friendsService.deleteFriend(id);
+        return "friends/list";
+    }
+
     private void setModel(Model model, Pair<Integer, List<Profile>> pair) {
         model.addAttribute("friends", pair.getValue());
         model.addAttribute("pages", pair.getKey());

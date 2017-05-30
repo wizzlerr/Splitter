@@ -30,7 +30,8 @@ public class InviteFactory {
     private Invite getInvite(Friend friend) {
         Invite invite = new Invite();
         invite.setInviteDefinition("Nowe zaproszenie od " + friend.getFirstUser().getUserName());
-        invite.setInviteAction("/auth/friend/confirm/" + friend.getId());
+        invite.setInviteActionConfirm("/auth/friend/confirm/" + friend.getId());
+        invite.setInviteActionDelete("/auth/friend/delete/" + friend.getId());
         return invite;
     }
 }

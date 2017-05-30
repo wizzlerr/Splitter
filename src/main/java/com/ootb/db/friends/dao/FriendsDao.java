@@ -97,4 +97,8 @@ public class FriendsDao extends AbstractDao {
         friend.setConfirmed(true);
         update(friend);
     }
+
+    public void deleteFriend(long id) {
+        queryDelete("Friend", id);
+    }
 }

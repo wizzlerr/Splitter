@@ -102,4 +102,15 @@ public class FriendsService {
             notificationService.addDangerMessage("Brak znajomego lub brak uprawnien do potwierdzenia znajomosci.");
         }
     }
+
+    public void deleteFriend(long id) {
+        com.ootb.db.friends.type.Friend friend = friendsDao.findById(id);
+
+        if(friend.getSecondUser().getId().equals(userService.getLoggedUser().getId())) {
+            friendsDao.deleteFriend(id);
+            notificationService.addSuccessMessage("Pomyslnie usunięto znajomego");
+        } else {
+            notificationService.addDangerMessage("Brak znajomego lub brak uprawnien do potwierdzenia znajomosci.");
+        }
+    }
 }

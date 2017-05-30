@@ -28,7 +28,12 @@
         <tr th:each="exp,iterationStatus  : ${invites}">
             <th scope="row" th:text="${iterationStatus.count}"></th>
             <td th:text="${exp.inviteDefinition}"></td>
-            <td><a class="anchor-no-underline" th:href="@{''+${exp.inviteAction}}">Potwierdź</a></td>
+            <td>
+                <ul>
+                    <li><a class="anchor-no-underline" th:href="@{''+${exp.inviteActionConfirm}}">Potwierdź</a></li>
+                    <li><a class="anchor-no-underline" th:href="@{''+${exp.inviteActionDelete}}">Odrzuć</a></li>
+                </ul>
+            </td>
         </tr>
         </tbody>
     </table>
